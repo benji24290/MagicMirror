@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Magic Mirror</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+        <link rel="stylesheet" href="styles.css">
+        <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+        <script src="http://code.jquery.com/ui/1.10.2/jquery-ui.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+        <script src="functions.js"></script>
+        <script src="https://cdn.socket.io/socket.io-1.4.5.js"></script>
+    </head>
+    <body>
+        <div class="topsection">
+            <table style="float : right;">
+                <tr>
+                    <td>
+                        <div id="clock"></div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <div id="weather" class="weather">
+                            <span id="location"></span><br>
+                            <img id="icon" src=""><br>
+                            <span id="temp"></span>&#x2103;<br>
+                            <span id="description"></span><br>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                  <td>
+                    <div id="forecast1" class="weather" >
+                      <span id="forecast_time1">Heute</span>
+                      <br><img id="forecast_icon1" src="PNG/01n.png">
+                      <br><span id="forecast_description1">Klarer Himmel</span>
+                      <br>Max: <span id="forecast_maxTemp1">1.27</span>℃
+                      <br>Min: <span id="forecast_minTemp1">-2.67</span>℃<br>
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <div id="forecast2" class="weather" >
+                      <span id="forecast_time2">Morgen</span>
+                      <br><img id="forecast_icon2" src="PNG/01n.png">
+                      <br><span id="forecast_description2">Klarer Himmel</span>
+                      <br>Max: <span id="forecast_maxTemp2">-</span>℃
+                      <br>Min: <span id="forecast_minTemp2">-</span>℃<br>
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <div id="forecast3" class="weather" >
+                      <span id="forecast_time3">Übermorgen</span>
+                      <br><img id="forecast_icon3" src="PNG/01n.png">
+                      <br><span id="forecast_description3">Klarer Himmel</span>
+                      <br>Max: <span id="forecast_maxTemp3">-</span>℃
+                      <br>Min: <span id="forecast_minTemp3">-</span>℃<br>
+                    </div>
+                  </td>
+                </tr>
+            </table>
+        </div>
+        <div id="quote" class="bottomsection"></div>
+    </body>
+</html>

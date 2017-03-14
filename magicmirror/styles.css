@@ -1,0 +1,64 @@
+.selectedCategory {
+    background-color: #9FB6CD !important;
+}
+
+.clock1 {
+    padding-top: 20px;
+    padding-bottom: 20px;
+    width: 200px;
+    text-align: center;
+    font-family: Rockwell, "Courier Bold", Courier, Georgia, Times, "Times New Roman", serif;
+	font-size: 24px;
+	font-style: normal;
+	font-variant: normal;
+	font-weight: 800;
+    color : black;
+    background-color: #CAE1FF;
+    border: 2px solid black;
+    border-radius: 15px;
+}
+
+.clock2 {
+    padding-top: 20px;
+    padding-bottom: 20px;
+    width: 200px;
+    text-align: center;
+    font-family: Rockwell, "Courier Bold", Courier, Georgia, Times, "Times New Roman", serif;
+	font-size: 24px;
+	font-style: normal;
+	font-variant: normal;
+	font-weight: 800;
+    color : crimson;
+    background-color: #FFEFDB;
+    border: 2px solid crimson;
+    border-radius: 15px;
+}
+
+.clock3 {
+    padding-top: 20px;
+    padding-bottom: 20px;
+    width: 200px;
+    text-align: center;
+    font-family: Rockwell, "Courier Bold", Courier, Georgia, Times, "Times New Roman", serif;
+	font-size: 24px;
+	font-style: normal;
+	font-variant: normal;
+	font-weight: 800;
+    color : darkolivegreen;
+    background-color: #CAFF70;
+    border: 2px solid darkolivegreen;
+    border-radius: 15px;
+}
+
+.date {
+    font-size: 18px;
+    font-weight: 400;
+}
+
+.footer {
+    width: 100%;
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    background-color: white;
+}

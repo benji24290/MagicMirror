@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Magic Mirror Settings</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <!-- CSS  -->
+        <link rel="stylesheet" href="styles.css">
+        <link rel="stylesheet" type="text/css" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
+        <!-- socket io -->
+        <script src="http://localhost:8081/socket.io/socket.io.js"></script>
+        <!-- JQuery -->
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+        <script src="http://code.jquery.com/ui/1.10.2/jquery-ui.js"></script>
+        <!-- Bootstrap -->
+        <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+        <script src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.3.0/js/bootstrap-datepicker.min.js"></script>
+        <!-- Own -->
+        <script src="functions.js"></script>
+    </head>
+    <body>
+        
+        <div class="container-fluid" style="margin-top : 50px; margin-bottom : 50px;">
+            <h1>Settings of your Magic Mirror</h1>
+            
+            <div class="row" style="margin-top : 50px;">
+                <div class="col-md-6">
+                    <div class="panel-group" id="generalpreferences">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h4 class="panel-title">
+                                    <a data-toggle="collapse" href="#collapse1">
+                                        <span id="collapseicon1" class="glyphicon glyphicon-collapse-down" style="padding-right : 10px;"></span>General</a>
+                                </h4>
+                            </div>
+                            <div id="collapse1" class="panel-collapse collapse">
+                                <div class="panel-body">
+                                    <table style="width : 100%;">
+                                        <tr>
+                                            <td style="width : 50%;">Set your preferred language:</td>
+                                            <td><select id="language" class="btn btn-default" onchange="updateLanguage();"></select></td>
+                                        </tr>
+                                    </table>
+                                    <br><br>
+                                    <span>Add your birthday:</span><br>
+                                    <table id="birthday" class="table" title="Users birthday">
+                                        <thead><th>Name</th><th>Geburtsdatum</th><th></th></thead>
+                                        <tbody>
+                                            <tr><td></td><td></td><td><button type="button" class="btn glyphicon glyphicon-plus" style="float : right;" onclick="addBirthday();"></button></td></tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6"></div>
+            </div>
+            
+            <div class="row" style="margin-top : 50px;">
+                <div class="col-md-6">
+                    <div class="panel-group" id="newspreferences">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h4 class="panel-title">
+                                    <a data-toggle="collapse" href="#collapse2">
+                                        <span id="collapseicon2" class="glyphicon glyphicon-collapse-down" style="padding-right : 10px;"></span>News preferences</a>
+                                </h4>
+                            </div>
+                            <div id="collapse2" class="panel-collapse collapse">
+                                <div class="panel-body">
+                                    <span>Drag and drop the rows in your preferred order:</span><br><br>
+                                    <table id="sort" class="grid table table-bordered" title="News preferences">
+                                        <tbody></tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6"></div>
+            </div>
+            
+            <div class="row" style="margin-top : 50px;">
+                <div class="col-md-6">
+                    <div class="panel-group" id="quotespreferences">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h4 class="panel-title">
+                                    <a data-toggle="collapse" href="#collapse3">
+                                        <span id="collapseicon3" class="glyphicon glyphicon-collapse-down" style="padding-right : 10px;"></span>Quotes preferences</a>
+                                </h4>
+                            </div>
+                            <div id="collapse3" class="panel-collapse collapse">
+                                <div class="panel-body">
+                                    <span>Set the interval your quotes will change:</span>
+                                    <input id="quoteInterval" type="number" min="10" max="120" step="10" onchange="updateQuoteInterval();" style="margin-left : 10px; margin-right : 10px;"/>Min<br><br>
+                                    <span>Select your favourite categorys:</span><br><br>
+                                    <table style="width : 100%">
+                                        <thead>
+                                            <th>Available</th>
+                                            <th></th>
+                                            <th>Selected</th>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>
+                                                    <table id="availableCategorys" class="table table-bordered table-striped"></table>
+                                                </td>
+                                                <td>
+                                                    <table style="width : 100%">
+                                                        <tr style="height : 40px;">
+                                                            <td style="text-align : center;">
+                                                                <button type="button" class="btn btn-default" onclick="addCategory();">Add <span class="glyphicon glyphicon-chevron-right"></span></button>
+                                                            </td>
+                                                        </tr>
+                                                        <tr style="height : 40px;">
+                                                            <td style="text-align : center;">
+                                                                <button type="button" class="btn btn-default" onclick="removeCategory();"><span class="glyphicon glyphicon-chevron-left"></span> Remove</button>
+                                                            </td>
+                                                        </tr>
+                                                    </table>
+                                                </td>
+                                                <td>
+                                                    <table id="selectedCategorys" class="table table-bordered table-striped"></table>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6"></div>
+            </div>
+            
+            <div class="row" style="margin-top : 50px; margin-bottom : 50px;">
+                <div class="col-md-6">
+                    <div class="panel-group" id="layoutpreferences">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h4 class="panel-title">
+                                    <a data-toggle="collapse" href="#collapse4">
+                                        <span id="collapseicon4" class="glyphicon glyphicon-collapse-down" style="padding-right : 10px;"></span>Layout preferences</a>
+                                </h4>
+                            </div>
+                            <div id="collapse4" class="panel-collapse collapse">
+                                <div class="panel-body">
+                                    <table style="width : 100%; height : 200px;">
+                                        <thead>
+                                            <th style="width : 15%;"></th>
+                                            <th style="width : 25%;"></th>
+                                            <th style="width : 60%;"></th>
+                                        </thead>
+                                        <tr>
+                                            <td>Clock widget:</td>
+                                            <td>
+                                                <select id="clockWidget" class="btn btn-default" onchange="updateClockWidget();"></select>
+                                            </td>
+                                            <td>
+                                                <div id="preview1" style="display : none;" class="clock1"></div>
+                                                <div id="preview2" style="display : none;" class="clock2"></div>
+                                                <div id="preview3" style="display : none;" class="clock3"></div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>Weather:</td>
+                                            <td></td>
+                                            <td></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Forecast:</td>
+                                            <td>
+                                                <div class="btn-group btn-toggle" id="forecastToggle"></div>
+                                            </td>
+                                            <td></td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6"></div>
+            </div>
+        </div>
+        <div class="footer">
+            <table>
+                <tr>
+                    <td><button class="btn btn-success" type="button" style="margin : 20px;" onclick="updateSettings();">Save</button></td>
+                    <td>
+                        <span id="inSync" style="color : green; display : block;">Fully saved!</span>
+                        <span id="notInSync" style="color : red; display : none;">Not everything saved!</span>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </body>
+</html>

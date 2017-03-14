@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Magic Mirror</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+        <link rel="stylesheet" href="../styles.css">
+        <script src="http://localhost:8081/socket.io/socket.io.js"></script>
+        <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+        <script src="http://code.jquery.com/ui/1.10.2/jquery-ui.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+        <script src="https://cdn.socket.io/socket.io-1.4.5.js"></script>
+        <script src="functions.js"></script>
+        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAqex9b3j6hTu_ogDL6i25lx86555l_0UA&callback=initMap" async defer></script>
+    </head>
+    <body>
+        <div class="container-fluid" style="margin-top : 50px; margin-bottom : 50px;">
+            
+            <div class="row">
+                <div class="col-md-1"></div>
+                <div class="col-md-5 well">
+                    <table>
+                        <tr>
+                            <td style="padding-right : 15px;">Location:</td>
+                            <td><input type="text" class="form-control" id="location"></td>
+                            <td><button class="btn btn-default" onclick="setLocation();">Go</button></td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="col-md-2"></div>
+                <div class="col-md-3">
+                    <div style="margin : 0;" id="clock"></div>
+                </div>
+                <div class="col-md-1"></div>
+            </div>
+            <div class="row">
+                <div class="col-md-1">
+                </div>
+                <div class="col-md-10" style="height : 700px; margin-top : 50px;" id="map">
+                </div>
+                <div class="col-md-1">
+                </div>
+            </div>
+        </div>
+    </body>
+</html>
