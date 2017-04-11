@@ -34,7 +34,7 @@ var currentTheme = '';
 
 
 $(document).ready(function () {
-    
+
     // Get settings from DB
     $.ajax({
         type: 'GET',
@@ -46,15 +46,35 @@ $(document).ready(function () {
                 refreshData();
             });
             var settings = JSON.parse(data)[0];
-            
+
             clockStyle = settings.layout.selectedClockWidget;
             sources = settings.news.sourcePriorities;
-            
+
             startTime('clock')
             $('#clock')[0].classList.add(clockStyle);
             initNews();
         }
     });
+    if (annyang) {
+      annyang.setLanguage('de');
+  // Let's define our first command. First the text we expect, and then the function it should call
+  var commands = {
+    'news': function() {
+      window.location = "../mirror/news";
+
+    },
+    'home': function() {
+      window.location = "../";
+
+    }
+  };
+
+  // Add our commands to annyang
+  annyang.addCommands(commands);
+
+  // Start listening. You can call this here, or attach this call to an event, button, etc.
+  annyang.start();
+}
 });
 
 
@@ -88,28 +108,28 @@ startTime = function (container) {
     var h = today.getHours();
     var m = today.getMinutes();
     var s = today.getSeconds();
-    
+
     day = checkTime(day)
     month = checkTime(month);
     m = checkTime(m);
     s = checkTime(s);
-    
+
     $('#'+container)[0].innerHTML = h + ':' + m + ':' + s + '<br><span class="date">' + day+'.'+month+'.'+year+'</span>';
-    
+
     setTimeout(function() {
         startTime(container);
     }, 500);
 },
-    
+
 checkTime = function (i) {
     if (i < 10) {
         i = '0' + i
     };
     return i;
 },
-    
+
 //--------------------NEWS----------------------------------------------------------------------------------------------------------------
-    
+
 compare = function (a,b) {
     if (a.priority < b.priority)
         return -1;
@@ -117,7 +137,7 @@ compare = function (a,b) {
         return 1;
     return 0;
 },
-    
+
 selectSource = function (name) {
     if(name === '20min') {
         $('#news')[0].innerHTML = '';
@@ -153,16 +173,16 @@ selectSource = function (name) {
         $('#themes')[0].innerHTML = html;
     }
 },
-    
+
 selectTheme = function (source, theme) {
     $('#news')[0].innerHTML = '<b>Currently no data available</b>';
-    
+
     if(source === '20min') {
         var url = window['twentyMin_'+theme];
         $('#news')[0].innerHTML = '<iframe src="'+ url +'" style="width : 100%; height : 700px;"></iframe>';
-        
+
     } else if(source === 'Tagesanzeiger') {
-        
+
         if(theme === 'Front') {
             var xmlURL = 'http://www.tagesanzeiger.ch/rss.html';
         } else if(theme === 'Zürich') {
@@ -181,9 +201,9 @@ selectTheme = function (source, theme) {
                 buildTagiData(data, 0, theme);
             }
         });
-        
+
     } else if(source === 'Blick') {
-        
+
         if(theme === 'Front') {
             var path = '/news/rss';
         } else if (theme === 'Zürich') {
@@ -191,11 +211,11 @@ selectTheme = function (source, theme) {
         } else {
             var path = '/'+theme.toLowerCase()+'/rss';
         }
-        
+
         var data = {host : 'www.blick.ch', path : path, method : 'http'};
-        
+
         currentTheme = theme;
-        
+
         $.ajax({
             type: 'POST',
             data: JSON.stringify(data),
@@ -205,9 +225,9 @@ selectTheme = function (source, theme) {
                 buildBlickData(data, 0, theme);
             }
         });
-        
+
     } else if(source === 'NZZ') {
-        
+
         if (theme === 'Front') {
             var path = '/startseite.rss';
         } else if (theme === 'Zürich') {
@@ -219,11 +239,11 @@ selectTheme = function (source, theme) {
         } else {
             var path = '/'+theme.toLowerCase()+'.rss';
         }
-        
+
         var data = {host : 'www.nzz.ch', path : path, method : 'https'};
-        
+
         currentTheme = theme;
-    
+
         $.ajax({
             type: 'POST',
             data: JSON.stringify(data),
@@ -233,13 +253,13 @@ selectTheme = function (source, theme) {
                 buildNZZData(data, 0, theme);
             }
         });
-        
+
     }
 },
-    
+
 buildTagiData = function (data, index, theme) {
     if(currentTheme === theme) {
-        
+
         $xml = $(data);
         var items = $xml.find('item');
         if(!items[index]) {
@@ -262,15 +282,15 @@ buildTagiData = function (data, index, theme) {
             buildTagiData(data, index+1, theme);
         }, 5000);
     }
-    
+
 },
-    
+
 buildBlickData = function (data, index, theme) {
     if(currentTheme === theme) {
-        
+
         $xml = $(data);
         var items = $xml.find('item');
-        
+
         if(items.length > 0) {
             if(!items[index]) {
                 index = 0;
@@ -288,8 +308,8 @@ buildBlickData = function (data, index, theme) {
                 html += $item.find('title')[0].textContent;
                 html += '<br>';
                 html += $item.find('description')[0].textContent;
-            } 
-            
+            }
+
             if($item.find('content\\:encoded') && $item.find('content\\:encoded')[0] && $item.find('content\\:encoded')[0].children.length > 0) {
                 $.each($item.find('content\\:encoded')[0].children, function (i, content) {
                     html += content.outerHTML;
@@ -302,15 +322,15 @@ buildBlickData = function (data, index, theme) {
                 buildBlickData(data, index+1, theme);
             }, 5000);
         }
-        
-        
+
+
     }
-    
+
 },
-    
+
 buildNZZData = function (data, index, theme) {
     if(currentTheme === theme) {
-        
+
         $xml = $(data);
         var items = $xml.find('item');
         if(!items[index]) {
@@ -318,7 +338,7 @@ buildNZZData = function (data, index, theme) {
         }
         $item = $(items[index]);
         var html = '';
-        
+
         html += $xml.find('title')[0].textContent;
         html += '<br><br>';
         html += $item.find('title')[0].textContent;
@@ -333,15 +353,15 @@ buildNZZData = function (data, index, theme) {
             buildNZZData(data, index+1, theme);
         }, 5000);
     }
-    
+
 },
-  
-    
+
+
 //------------------------------------------------------------------------------------------------------------------------------------------
 //--------------------DAO-------------------------------------------------------------------------------------------------------------------
 //------------------------------------------------------------------------------------------------------------------------------------------
 
-    
+
 refreshData = function () {
     $.ajax({
         type: 'GET',
@@ -349,10 +369,10 @@ refreshData = function () {
         url: settingsURL,
         success : function(data){
             var settings = JSON.parse(data)[0];
-            
+
             clockStyle = settings.layout.selectedClockWidget;
             sources = settings.news.sourcePriorities;
-            
+
             startTime('clock')
             $('#clock')[0].classList = '';
             $('#clock')[0].classList.add(clockStyle);
