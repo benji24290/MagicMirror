@@ -14,8 +14,31 @@ var socket;
 
 
 $(document).ready(function () {
+
+  if (annyang) {
+    annyang.setLanguage('de');
+    // Let's define our first command. First the text we expect, and then the function it should call
+    var commands = {
+        'news': function() {
+            window.location = "../news";
+
+          },
+        'home': function() {
+            window.location = "../";
+
+          }
+      };
+
+    //remove commands from previous pages
+    annyang.removeCommands();
+    // Add our commands to annyang
+    annyang.addCommands(commands);
+
+    // Start listening. You can call this here, or attach this call to an event, button, etc.
+    annyang.start();
+  }
     // Get settings from DB
-    $.ajax({
+  $.ajax({
         type: 'GET',
         contentType: 'application/json',
         url: settingsURL,
@@ -33,26 +56,7 @@ $(document).ready(function () {
             initMap();
         }
     });
-    if (annyang) {
-      annyang.setLanguage('de');
-  // Let's define our first command. First the text we expect, and then the function it should call
-  var commands = {
-    'maps': function() {
-      window.location = "../mirror/maps";
 
-    },
-    'home': function() {
-      window.location = "../";
-
-    }
-  };
-
-  // Add our commands to annyang
-  annyang.addCommands(commands);
-
-  // Start listening. You can call this here, or attach this call to an event, button, etc.
-  annyang.start();
-}
 });
 
 
