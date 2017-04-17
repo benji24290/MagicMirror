@@ -27,6 +27,26 @@ $(document).ready(function () {
       annyang.setLanguage('de');
   // Let's define our first command. First the text we expect, and then the function it should call
   var commands = {
+    'vorhersage ein': function() {
+      document.getElementById("forecast1").style.display = "block";
+      document.getElementById("forecast2").style.display = "block";
+      document.getElementById("forecast3").style.display = "block";
+    },
+    'wettervorhersage ein': function() {
+      document.getElementById("forecast1").style.display = "block";
+      document.getElementById("forecast2").style.display = "block";
+      document.getElementById("forecast3").style.display = "block";
+    },
+    'vorhersage aus': function() {
+      document.getElementById("forecast1").style.display = "none";
+      document.getElementById("forecast2").style.display = "none";
+      document.getElementById("forecast3").style.display = "none";
+    },
+    'wettervorhersage aus': function() {
+      document.getElementById("forecast1").style.display = "none";
+      document.getElementById("forecast2").style.display = "none";
+      document.getElementById("forecast3").style.display = "none";
+    },
     'news': function() {
       window.location = "../mirror/news";
 
