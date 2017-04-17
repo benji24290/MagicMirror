@@ -101,7 +101,7 @@ startTime = function (container) {
     var m = today.getMinutes();
     var s = today.getSeconds();
 
-    day = checkTime(day)
+    day = checkTime(day);
     month = checkTime(month);
     m = checkTime(m);
     s = checkTime(s);
@@ -115,8 +115,8 @@ startTime = function (container) {
 
 checkTime = function (i) {
     if (i < 10) {
-        i = '0' + i
-    };
+        i = '0' + i;
+    }
     return i;
 },
 
@@ -173,10 +173,10 @@ refreshData = function () {
 
             clockStyle = settings.layout.selectedClockWidget;
 
-            startTime('clock')
+            startTime('clock');
             $('#clock')[0].classList = '';
             $('#clock')[0].classList.add(clockStyle);
             initMap();
         }
     });
-}
+};
