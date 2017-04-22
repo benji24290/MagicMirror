@@ -47,9 +47,20 @@ $(document).ready(function () {
       document.getElementById("forecast2").style.display = "none";
       document.getElementById("forecast3").style.display = "none";
     },
+    'zitat aus': function() {
+      document.getElementById("quote").style.display = "none";
+    },
+    'zitat ein': function() {
+      document.getElementById("quote").style.display = "block";
+    },
+    'wie ist das wetter in *stadt': function(stadt) {
+      forecastWeatherURL = 'http://api.openweathermap.org/data/2.5/forecast?q='+ stadt +'&units=metric&id=524901&APPID='+weatherApiKey;
+      currentWeatherURL = 'http://api.openweathermap.org/data/2.5/weather?q='+ stadt +'&units=metric&id=524901&APPID='+weatherApiKey;
+      initWeather();
+      initForecast();
+    },
     'news': function() {
       window.location = "../mirror/news";
-
     },
     'maps': function() {
       window.location = "../mirror/maps";
