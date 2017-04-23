@@ -23,6 +23,7 @@ var author = '';
 
 $(document).ready(function () {
     // Get settings from DB
+
     if (annyang) {
       annyang.setLanguage('de');
   // Let's define our first command. First the text we expect, and then the function it should call
@@ -52,6 +53,31 @@ $(document).ready(function () {
     },
     'zitat ein': function() {
       document.getElementById("quote").style.display = "block";
+    },
+    //--------------------Eyetraking---------------------------
+    'augen ein': function() {
+      webgazer.setGazeListener(function(data, elapsedTime) {
+        if (data === null) {
+            return;
+        }
+        var xprediction = data.x; //these x coordinates are relative to the viewport
+        var yprediction = data.y; //these y coordinates are relative to the viewport
+        console.log(elapsedTime); //elapsed time is based on time since begin was called
+        if(xprediction+40 < window.innerWidth && yprediction+40 < window.innerHeight){
+          document.getElementById("prediction").style.position = "absolute";
+          document.getElementById("prediction").style.left = xprediction+'px';
+          document.getElementById("prediction").style.top = yprediction+'px';
+        }
+      }).begin();
+    },
+    //--------------------Eyetraking---------------------------
+    'augen aus': function() {
+      if(webgazer){
+        webgazer.end();
+      }
+      console.log("augen aus");
+      document.getElementById("prediction").style.left = '-50px';
+      document.getElementById("prediction").style.top = '-50px';
     },
     'wie ist das wetter in *stadt': function(stadt) {
       forecastWeatherURL = 'http://api.openweathermap.org/data/2.5/forecast?q='+ stadt +'&units=metric&id=524901&APPID='+weatherApiKey;

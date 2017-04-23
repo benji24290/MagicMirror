@@ -105,7 +105,7 @@ body{
 }
 #forecast1{
   opacity: 0.9;
-  
+
 
 }
 #forecast2{
@@ -115,4 +115,14 @@ body{
 #forecast3{
   opacity: 0.5;
 
+}
+#prediction{
+  width: 40px;
+  height: 40px;
+  color: white;
+  border: 2px solid red;
+  border-radius: 40px;
+  position: absolute;
+  left: -50px;
+  top: -50px;
 }
