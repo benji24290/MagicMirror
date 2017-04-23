@@ -14,6 +14,8 @@ var quoteCategories;
 var quoteInterval;
 var quote = '';
 var author = '';
+var timer = 0; //wie lange ein element selected ist
+var selectedId; //die ID des selceted element
 
 
 //-------------------------------------------------------------------------------------------------------------------------
@@ -62,11 +64,25 @@ $(document).ready(function () {
         }
         var xprediction = data.x; //these x coordinates are relative to the viewport
         var yprediction = data.y; //these y coordinates are relative to the viewport
-        console.log(elapsedTime); //elapsed time is based on time since begin was called
+        //console.log(elapsedTime); //elapsed time is based on time since begin was called
         if(xprediction+40 < window.innerWidth && yprediction+40 < window.innerHeight){
           document.getElementById("prediction").style.position = "absolute";
           document.getElementById("prediction").style.left = xprediction+'px';
           document.getElementById("prediction").style.top = yprediction+'px';
+        }
+        //check if eyepostition +- 100 of wheater element
+        if(xprediction-100 < document.getElementById('weather').getBoundingClientRect().left   && xprediction+100 > document.getElementById('weather').getBoundingClientRect().left && yprediction-100 < document.getElementById('weather').getBoundingClientRect().top   && yprediction+100 > document.getElementById('weather').getBoundingClientRect().top){
+          document.getElementById("weather").style.color = 'red';
+          document.getElementById("quote").innerHTML="Wetter wurde Selektiert, um  die Stadt zu ändern sagen Sie zum Beispiel: -Stadt Bern- "
+          selectedId = "weather";
+        }else{
+          if(timer>=200){
+            document.getElementById("weather").style.color = 'white';
+            document.getElementById("quote").innerHTML=""
+            selectedId = "";
+            timer = 0;
+          }
+          timer++;
         }
       }).begin();
     },
@@ -84,6 +100,14 @@ $(document).ready(function () {
       currentWeatherURL = 'http://api.openweathermap.org/data/2.5/weather?q='+ stadt +'&units=metric&id=524901&APPID='+weatherApiKey;
       initWeather();
       initForecast();
+    },
+    'stadt *stadt': function(stadt) {
+      if(selectedId == "weather"){
+        forecastWeatherURL = 'http://api.openweathermap.org/data/2.5/forecast?q='+ stadt +'&units=metric&id=524901&APPID='+weatherApiKey;
+        currentWeatherURL = 'http://api.openweathermap.org/data/2.5/weather?q='+ stadt +'&units=metric&id=524901&APPID='+weatherApiKey;
+        initWeather();
+        initForecast();
+      }
     },
     'news': function() {
       window.location = "../mirror/news";
