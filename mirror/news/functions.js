@@ -74,6 +74,10 @@ $(document).ready(function () {
             startTime('clock')
             $('#clock')[0].classList.add(clockStyle);
             initNews();
+        },
+        error : function(error){
+          sources = [{"source" : '20min', "priority" : 0}, {"source" : 'Blick', "priority" : 1}, {"source" : 'Tagesanzeiger', "priority" : 2}, {"source" : 'NZZ', "priority" : 3}]
+          initNews();
         }
     });
 

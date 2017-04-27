@@ -21,6 +21,20 @@ body{
 	font-variant: normal;
 	font-weight: 800;
 }
+.errorText {
+    width: 100%;
+    color: red;
+    opacity: 0.8;
+    position: fixed;
+    left: 0;
+    top: 50px;
+    text-align: center;
+    font-family: Rockwell, "Courier Bold", Courier, Georgia, Times, "Times New Roman", serif;
+	font-size: 24px;
+	font-style: normal;
+	font-variant: normal;
+	font-weight: 800;
+}
 
 .contentsection {
     margin: 200px 50px 50px 50px;
@@ -128,4 +142,19 @@ body{
 }
 .select{
   color: red;
+}
+#loading {
+    width: 100%;
+    color: white;
+    opacity: 0.8;
+    position: fixed;
+    left: 0;
+    top: 300px;
+    text-align: center;
+    font-family: Rockwell, "Courier Bold", Courier, Georgia, Times, "Times New Roman", serif;
+	font-size: 24px;
+	font-style: normal;
+	font-variant: normal;
+	font-weight: 800;
+  display: none;
 }

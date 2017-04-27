@@ -15,6 +15,7 @@
         <script src="//cdnjs.cloudflare.com/ajax/libs/annyang/2.6.0/annyang.min.js"></script>
     </head>
     <body>
+      <div id="errorText" class="errorText">test</div>
         <div class="topsection">
             <table style="float : right;">
                 <tr>
@@ -37,9 +38,9 @@
                     <div id="forecast1" class="weather" >
                       <span id="forecast_time1">Heute</span>
                       <br><img id="forecast_icon1" src="PNG/01n.png">
-                      <br><span id="forecast_description1">Klarer Himmel</span>
-                      <br>Max: <span id="forecast_maxTemp1">1.27</span>℃
-                      <br>Min: <span id="forecast_minTemp1">-2.67</span>℃<br>
+                      <br><span id="forecast_description1">-</span>
+                      <br>Max: <span id="forecast_maxTemp1">-</span>℃
+                      <br>Min: <span id="forecast_minTemp1">-</span>℃<br>
                     </div>
                   </td>
                 </tr>
@@ -48,7 +49,7 @@
                     <div id="forecast2" class="weather" >
                       <span id="forecast_time2">Morgen</span>
                       <br><img id="forecast_icon2" src="PNG/01n.png">
-                      <br><span id="forecast_description2">Klarer Himmel</span>
+                      <br><span id="forecast_description2">-</span>
                       <br>Max: <span id="forecast_maxTemp2">-</span>℃
                       <br>Min: <span id="forecast_minTemp2">-</span>℃<br>
                     </div>
@@ -59,7 +60,7 @@
                     <div id="forecast3" class="weather" >
                       <span id="forecast_time3">Übermorgen</span>
                       <br><img id="forecast_icon3" src="PNG/01n.png">
-                      <br><span id="forecast_description3">Klarer Himmel</span>
+                      <br><span id="forecast_description3">-</span>
                       <br>Max: <span id="forecast_maxTemp3">-</span>℃
                       <br>Min: <span id="forecast_minTemp3">-</span>℃<br>
                     </div>
@@ -68,6 +69,7 @@
             </table>
         </div>
         <div id="quote" class="bottomsection"></div>
-        <div id="prediction"></div> 
+        <div id="loading"></div>
+        <div id="prediction"></div>
     </body>
 </html>

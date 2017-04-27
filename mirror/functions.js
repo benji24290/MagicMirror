@@ -12,10 +12,14 @@ var currentWeatherURL = 'http://api.openweathermap.org/data/2.5/weather?q='+ cit
 var clockStyle;
 var quoteCategories;
 var quoteInterval;
+var language = "de";
 var quote = '';
 var author = '';
 var timer = 0; //wie lange ein element selected ist
 var selectedId; //die ID des selceted element
+var errorForecast = false;
+var weatherInterval = 900000; //time to weather refresh DEFAULT 900000
+
 
 
 //-------------------------------------------------------------------------------------------------------------------------
@@ -27,18 +31,36 @@ $(document).ready(function () {
     // Get settings from DB
 
     if (annyang) {
-      annyang.setLanguage('de');
+      annyang.setLanguage(language);
   // Let's define our first command. First the text we expect, and then the function it should call
   var commands = {
     'vorhersage ein': function() {
-      document.getElementById("forecast1").style.display = "block";
-      document.getElementById("forecast2").style.display = "block";
-      document.getElementById("forecast3").style.display = "block";
+      if(errorForecast === false){
+        document.getElementById("forecast1").style.display = "block";
+        document.getElementById("forecast2").style.display = "block";
+        document.getElementById("forecast3").style.display = "block";
+      }else{
+        document.getElementById('errorText').innerHTML = "Die wettervorhersage kann nicht Angezeigt werden. Keine Verbindung zum Server.";
+      }
     },
     'wettervorhersage ein': function() {
-      document.getElementById("forecast1").style.display = "block";
-      document.getElementById("forecast2").style.display = "block";
-      document.getElementById("forecast3").style.display = "block";
+      if(errorForecast === false){
+        document.getElementById("forecast1").style.display = "block";
+        document.getElementById("forecast2").style.display = "block";
+        document.getElementById("forecast3").style.display = "block";
+      }else{
+        document.getElementById('errorText').innerHTML = "Die wettervorhersage kann nicht Angezeigt werden. Keine Verbindung zum Service.";
+        textToVoice("Die wettervorhersage kann nicht Angezeigt werden. Keine Verbindung zum Service.",language);
+      }
+    },
+    'forecast on': function() {
+      if(errorForecast === false){
+        document.getElementById("forecast1").style.display = "block";
+        document.getElementById("forecast2").style.display = "block";
+        document.getElementById("forecast3").style.display = "block";
+      }else{
+        document.getElementById('errorText').innerHTML = "Die wettervorhersage kann nicht Angezeigt werden. Keine Verbindung zum Server.";
+      }
     },
     'vorhersage aus': function() {
       document.getElementById("forecast1").style.display = "none";
@@ -50,10 +72,21 @@ $(document).ready(function () {
       document.getElementById("forecast2").style.display = "none";
       document.getElementById("forecast3").style.display = "none";
     },
+    'forecast off': function() {
+      document.getElementById("forecast1").style.display = "none";
+      document.getElementById("forecast2").style.display = "none";
+      document.getElementById("forecast3").style.display = "none";
+    },
     'zitat aus': function() {
       document.getElementById("quote").style.display = "none";
     },
+    'quote off': function() {
+      document.getElementById("quote").style.display = "none";
+    },
     'zitat ein': function() {
+      document.getElementById("quote").style.display = "block";
+    },
+    'quote on': function() {
       document.getElementById("quote").style.display = "block";
     },
     //--------------------Eyetraking---------------------------
@@ -96,10 +129,22 @@ $(document).ready(function () {
       document.getElementById("prediction").style.top = '-50px';
     },
     'wie ist das wetter in *stadt': function(stadt) {
-      forecastWeatherURL = 'http://api.openweathermap.org/data/2.5/forecast?q='+ stadt +'&units=metric&id=524901&APPID='+weatherApiKey;
+      /*forecastWeatherURL = 'http://api.openweathermap.org/data/2.5/forecast?q='+ stadt +'&units=metric&id=524901&APPID='+weatherApiKey;
       currentWeatherURL = 'http://api.openweathermap.org/data/2.5/weather?q='+ stadt +'&units=metric&id=524901&APPID='+weatherApiKey;
       initWeather();
-      initForecast();
+      initForecast();*/
+      console.log("wie ist das wetter in"+stadt);
+      document.getElementById('loading').style.display = "block";
+      speechWetterUrl = 'http://api.openweathermap.org/data/2.5/weather?q='+ stadt +'&units=metric&id=524901&APPID='+weatherApiKey;
+      $.getJSON(speechWetterUrl, function(data) {
+        var text = 'In ' + data.name + ' ist es ' +data.main.temp+'°C';
+        textToVoice(text,language);
+        document.getElementById('loading').style.display = "none";
+      }).fail(function() {
+        var text = "Es konnten keine Wetterdaten für "+stadt+" geladen werden";
+        textToVoice(text,language);
+        document.getElementById('loading').style.display = "none";
+      });
     },
     'stadt *stadt': function(stadt) {
       if(selectedId == "weather"){
@@ -109,12 +154,25 @@ $(document).ready(function () {
         initForecast();
       }
     },
+    'sprache englisch': function() {
+      language = "en";
+      annyang.setLanguage("en");
+      console.log(language);
+      initForecast();
+      initWeather();
+    },
+    'language german': function() {
+      language = "de";
+      annyang.setLanguage("de");
+      console.log(language);
+      initForecast();
+      initWeather();
+    },
     'news': function() {
       window.location = "../mirror/news";
     },
     'maps': function() {
       window.location = "../mirror/maps";
-
     }
   };
   //remove commands from previous pages
@@ -135,6 +193,7 @@ $(document).ready(function () {
             quoteInterval = settings.quotes.interval * 60000;
             quoteCategories = settings.quotes.selectedCategories;
             clockStyle = settings.layout.selectedClockWidget;
+            language = settings.general.selectedLang.code;
 
             initWeather();
             initForecast();
@@ -145,6 +204,7 @@ $(document).ready(function () {
         error: function(errorThrown) {
             startTime('clock');
             $('#clock')[0].classList.add("clock1");
+            document.getElementById('errorText').innerHTML = "Ihre Einstellungen konnten nicht abgerufen werden.";
            initWeather();
            initForecast();
         }
@@ -188,6 +248,7 @@ checkTime = function (i) {
 },
 
 initWeather = function () {
+    console.log("getting weather...");
     $.getJSON(currentWeatherURL, function(data) {
 
         $('#icon')[0].src = 'PNG/'+ data.weather[0].icon +'.png';
@@ -196,10 +257,16 @@ initWeather = function () {
         $('#description')[0].innerHTML = translateWeather(data.weather[0].description);
         //$('#maxTemp')[0].innerHTML = data.main.temp_max;
         //$('#minTemp')[0].innerHTML = data.main.temp_min;
-    });
+    }).fail(function() {
+    document.getElementById('errorText').innerHTML = "Das Aktuelle Wetter konnte nicht geladen werden.";
+  });
+  setTimeout(function() {
+      initWeather();
+  }, weatherInterval);
 },
 
 initForecast = function () {
+    console.log("getting forecast...");
     $.getJSON(forecastWeatherURL, function(data) {
       var today = new Date();
       var dayObject = today.getDate();
@@ -266,7 +333,16 @@ initForecast = function () {
         $('#icon')[0].src = '/PNG/'+ data.weather[0].icon +'.png';
         $('#temp')[0].innerHTML = data.main.temp;
         */
-    });
+    }).fail(function() {
+    document.getElementById('errorText').innerHTML = "Die Wettervorhersage konnte nicht geladen werden.";
+    document.getElementById("forecast1").style.display = "none";
+    document.getElementById("forecast2").style.display = "none";
+    document.getElementById("forecast3").style.display = "none";
+    errorForecast=true;
+  });
+  setTimeout(function() {
+      initForecast();
+  }, weatherInterval);
 },
 
 initQuote = function () {
@@ -305,6 +381,26 @@ mode = function(array){
     }
 
     return maxEl;
+},
+
+textToVoice = function(text, lang){
+  var langCode = ["de", "en", "es", "fr"];
+  var langCodeVoice = ["de-CH", "en-US", "es-ES", "fr-FR"];
+  var voiceCode;
+  annyang.abort();
+  var msg = new SpeechSynthesisUtterance( text );
+  for(var i = 0; i < langCode.length; i++)
+  {
+    if(lang === langCode[i]){
+      voiceCode = langCodeVoice[i];
+    }
+  }
+  msg.lang = voiceCode;
+  msg.onend = function(e) {
+  //  annyang.start();
+  };
+  window.speechSynthesis.speak(msg);
+  annyang.start();
 },
 
 translateWeather = function(text){
