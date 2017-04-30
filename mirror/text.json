@@ -1,0 +1,24 @@
+ {
+    "de": {
+      "title": "Multi Language",
+      "#ml-pluginName": "Multi Language",
+      "#ml-howToUse": "How to use:",
+      "#ml-defaultLangCode": "// choose language by localStorage or default in json config",
+      "#ml-enLangCode": "// change language immdiately",
+      "#ml-demo": "Demo:",
+      "#ml-msg1": "Some message #1",
+      "#ml-msg2": "Some message #2",
+      ".ml-classA": "Class #A"
+    },
+    "en": {
+      "title": "Multi Language",
+      "#ml-pluginName": "Multi Language",
+      "#ml-howToUse": "How to use:",
+      "#ml-defaultLangCode": "// choose language by localStorage or default in json config",
+      "#ml-enLangCode": "// change language immdiately",
+      "#ml-demo": "Demo:",
+      "#ml-msg1": "Some message #1",
+      "#ml-msg2": "Some message #2",
+      ".ml-classA": "Class #A"
+    }
+  }

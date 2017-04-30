@@ -19,6 +19,7 @@ var timer = 0; //wie lange ein element selected ist
 var selectedId; //die ID des selceted element
 var errorForecast = false;
 var weatherInterval = 900000; //time to weather refresh DEFAULT 900000
+var texts;
 
 
 
@@ -28,7 +29,8 @@ var weatherInterval = 900000; //time to weather refresh DEFAULT 900000
 
 
 $(document).ready(function () {
-    // Get settings from DB
+    //Init Language
+    initText();
 
     if (annyang) {
       annyang.setLanguage(language);
@@ -413,6 +415,23 @@ translateWeather = function(text){
     }
   }
   return text;
+
+},
+initText = function(){
+  var textdata = (function() {
+      var textdata = null;
+      $.ajax({
+          'async': false,
+          'global': false,
+          'url': "text.json",
+          'dataType': "json",
+          'success': function (data) {
+              textdata = data;
+          }
+      });
+      return textdata;
+  })();
+  var texts = textdata[language];
 
 },
 
