@@ -340,7 +340,7 @@ initForecast = function () {
         $('#temp')[0].innerHTML = data.main.temp;
         */
     }).fail(function() {
-    document.getElementById('errorText').innerHTML = "Die Wettervorhersage konnte nicht geladen werden.";
+    document.getElementById('errorText').innerHTML = texts.HOME_ERROR_FORECAST;
     document.getElementById("forecast1").style.display = "none";
     document.getElementById("forecast2").style.display = "none";
     document.getElementById("forecast3").style.display = "none";
