@@ -1,8 +1,8 @@
  {
     "de": {
-      "title": "Multi Language",
-      "#ml-pluginName": "Multi Language",
-      "#ml-howToUse": "How to use:",
+      "language": "de",
+      "HOME_ERROR_FORECAST": "Die wettervorhersage kann nicht Angezeigt werden. Keine Verbindung zum Server.",
+      "HOME_ERROR_WEATHER": "Das Aktuelle Wetter konnte nicht geladen werden.",
       "#ml-defaultLangCode": "// choose language by localStorage or default in json config",
       "#ml-enLangCode": "// change language immdiately",
       "#ml-demo": "Demo:",
@@ -11,9 +11,9 @@
       ".ml-classA": "Class #A"
     },
     "en": {
-      "title": "Multi Language",
-      "#ml-pluginName": "Multi Language",
-      "#ml-howToUse": "How to use:",
+      "language": "en",
+      "#ml-pluginName": "The forecast could not be displayed. No connection to the server.",
+      "#ml-howToUse": "The current weather could not be loaded",
       "#ml-defaultLangCode": "// choose language by localStorage or default in json config",
       "#ml-enLangCode": "// change language immdiately",
       "#ml-demo": "Demo:",

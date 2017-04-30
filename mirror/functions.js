@@ -7,7 +7,7 @@ var settingsURL = 'http://192.168.1.124:8081/settings';
 var weatherApiKey = '307fbfa5c26f248d4bf737722b750fad';
 var city = 'Zuerich';
 var country = 'ch';
-var forecastWeatherURL = 'http://api.openweathermap.org/data/2.5/forecast?q='+ city +','+ country +'&units=metric&id=524901&APPID='+weatherApiKey;
+var forecastWeatherURL = 'ttp://api.openweathermap.org/data/2.5/forecast?q='+ city +','+ country +'&units=metric&id=524901&APPID='+weatherApiKey;
 var currentWeatherURL = 'http://api.openweathermap.org/data/2.5/weather?q='+ city +','+ country +'&units=metric&id=524901&APPID='+weatherApiKey;
 var clockStyle;
 var quoteCategories;
@@ -42,7 +42,8 @@ $(document).ready(function () {
         document.getElementById("forecast2").style.display = "block";
         document.getElementById("forecast3").style.display = "block";
       }else{
-        document.getElementById('errorText').innerHTML = "Die wettervorhersage kann nicht Angezeigt werden. Keine Verbindung zum Server.";
+        document.getElementById('errorText').innerHTML = texts.HOME_ERROR_FORECAST;
+        textToVoice(texts.HOME_ERROR_FORECAST,texts.language);
       }
     },
     'wettervorhersage ein': function() {
@@ -51,8 +52,9 @@ $(document).ready(function () {
         document.getElementById("forecast2").style.display = "block";
         document.getElementById("forecast3").style.display = "block";
       }else{
-        document.getElementById('errorText').innerHTML = "Die wettervorhersage kann nicht Angezeigt werden. Keine Verbindung zum Service.";
-        textToVoice("Die wettervorhersage kann nicht Angezeigt werden. Keine Verbindung zum Service.",language);
+        console.log(texts.title);
+        document.getElementById('errorText').innerHTML = texts.HOME_ERROR_FORECAST;
+        textToVoice(texts.HOME_ERROR_FORECAST,texts.language);
       }
     },
     'forecast on': function() {
@@ -61,8 +63,8 @@ $(document).ready(function () {
         document.getElementById("forecast2").style.display = "block";
         document.getElementById("forecast3").style.display = "block";
       }else{
-        document.getElementById('errorText').innerHTML = "Die wettervorhersage kann nicht Angezeigt werden. Keine Verbindung zum Server.";
-      }
+        document.getElementById('errorText').innerHTML = texts.HOME_ERROR_FORECAST;
+        textToVoice(texts.HOME_ERROR_FORECAST,texts.language);      }
     },
     'vorhersage aus': function() {
       document.getElementById("forecast1").style.display = "none";
@@ -108,12 +110,12 @@ $(document).ready(function () {
         //check if eyepostition +- 100 of wheater element
         if(xprediction-100 < document.getElementById('weather').getBoundingClientRect().left   && xprediction+100 > document.getElementById('weather').getBoundingClientRect().left && yprediction-100 < document.getElementById('weather').getBoundingClientRect().top   && yprediction+100 > document.getElementById('weather').getBoundingClientRect().top){
           document.getElementById("weather").style.color = 'red';
-          document.getElementById("quote").innerHTML="Wetter wurde Selektiert, um  die Stadt zu ändern sagen Sie zum Beispiel: -Stadt Bern- "
+          document.getElementById("quote").innerHTML="Wetter wurde Selektiert, um  die Stadt zu ändern sagen Sie zum Beispiel: -Stadt Bern- ";
           selectedId = "weather";
         }else{
           if(timer>=200){
             document.getElementById("weather").style.color = 'white';
-            document.getElementById("quote").innerHTML=""
+            document.getElementById("quote").innerHTML="";
             selectedId = "";
             timer = 0;
           }
@@ -181,6 +183,7 @@ $(document).ready(function () {
   annyang.removeCommands();
   // Add our commands to annyang
   annyang.addCommands(commands);
+
 
   // Start listening. You can call this here, or attach this call to an event, button, etc.
   annyang.start();
@@ -260,7 +263,8 @@ initWeather = function () {
         //$('#maxTemp')[0].innerHTML = data.main.temp_max;
         //$('#minTemp')[0].innerHTML = data.main.temp_min;
     }).fail(function() {
-    document.getElementById('errorText').innerHTML = "Das Aktuelle Wetter konnte nicht geladen werden.";
+    document.getElementById('errorText').innerHTML = texts.HOME_ERROR_WEATHER;
+    textToVoice(texts.HOME_ERROR_WEATHER,language);
   });
   setTimeout(function() {
       initWeather();
@@ -431,7 +435,7 @@ initText = function(){
       });
       return textdata;
   })();
-  var texts = textdata[language];
+  texts = textdata[language];
 
 },
 
