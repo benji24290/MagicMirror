@@ -16,7 +16,8 @@ var twentyMin_Wissen = 'http://www.20min.ch/screenplayer/?view=77';
 var twentyMin_Auto = 'http://www.20min.ch/screenplayer/?view=71';
 var twentyMin_Games = 'http://www.20min.ch/screenplayer/?view=117';
 
-var settingsURL = 'http://192.168.1.124:8081/settings';
+//var settingsURL = 'http://192.168.1.124:8081/settings';
+var settingsURL = 'http://localhost:8081/settings';
 var clockStyle;
 var sources;
 
@@ -103,36 +104,6 @@ initNews = function () {
 //--------------------HELPER----------------------------------------------------------------------------------------------------------------
 //------------------------------------------------------------------------------------------------------------------------------------------
 
-
-//--------------------CLOCK-----------------------------------------------------------------------------------------------------------------
-
-startTime = function (container) {
-    var today = new Date();
-    var day = today.getDate();
-    var month = today.getMonth();
-    var year = today.getFullYear();
-    var h = today.getHours();
-    var m = today.getMinutes();
-    var s = today.getSeconds();
-
-    day = checkTime(day)
-    month = checkTime(month);
-    m = checkTime(m);
-    s = checkTime(s);
-
-    $('#'+container)[0].innerHTML = h + ':' + m + ':' + s + '<br><span class="date">' + day+'.'+month+'.'+year+'</span>';
-
-    setTimeout(function() {
-        startTime(container);
-    }, 500);
-},
-
-checkTime = function (i) {
-    if (i < 10) {
-        i = '0' + i
-    };
-    return i;
-},
 
 //--------------------NEWS----------------------------------------------------------------------------------------------------------------
 

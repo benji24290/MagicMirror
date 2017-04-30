@@ -49,7 +49,7 @@
       "521":"shower rain",
       "522":"heavy intensity shower rain",
       "531":"ragged shower rain",
-      "600 light snow	 
+      "600 light snow
 601 snow
 602 heavy snow
 611 sleet
@@ -92,6 +92,6 @@
 959	severe gale
 960	storm
 961	violent storm
-962	hurricane"
+962	hurricane":"test"
     }
   }

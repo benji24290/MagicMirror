@@ -4,16 +4,26 @@
         <title>Magic Mirror</title>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
+        <!-- STYLES -->
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
         <link rel="stylesheet" href="styles.css">
+        <!-- JQUERY -->
         <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
         <script src="http://code.jquery.com/ui/1.10.2/jquery-ui.js"></script>
+        <!-- BOOTSTRAP -->
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-        <script src="functions.js"></script>
-        <script src="webgazer.js" type="text/javascript"></script>
-        <script type="text/javascript" src="text.json"></script>
-        <script src="https://cdn.socket.io/socket.io-1.4.5.js"></script>
+        <!-- SOCKET IO -->
+        <script src="http://192.168.1.124:8081/socket.io/socket.io.js"></script>
+        <!--<script src="http://localhost:8081/socket.io/socket.io.js"></script>-->
+        <!-- ANNYANG -->
         <script src="//cdnjs.cloudflare.com/ajax/libs/annyang/2.6.0/annyang.min.js"></script>
+        <!-- WEBGAZER -->
+        <script src="libaries/webgazer.js" type="text/javascript"></script>
+        <!-- LOCAL -->
+        <script src="functions.js"></script>
+        <script src="utils/clock.js"></script>
+        <script type="text/javascript" src="multi-lang-support/text.json"></script>
+        <script type="text/javascript" src="annyang-commands/commands.js"></script>
     </head>
     <body>
       <div id="errorText" class="errorText">test</div>
@@ -38,7 +48,7 @@
                   <td>
                     <div id="forecast1" class="weather" >
                       <span id="forecast_time1">Heute</span>
-                      <br><img id="forecast_icon1" src="PNG/01n.png">
+                      <br><img id="forecast_icon1" src="images/01n.png">
                       <br><span id="forecast_description1">-</span>
                       <br>Max: <span id="forecast_maxTemp1">-</span>℃
                       <br>Min: <span id="forecast_minTemp1">-</span>℃<br>
@@ -49,7 +59,7 @@
                   <td>
                     <div id="forecast2" class="weather" >
                       <span id="forecast_time2">Morgen</span>
-                      <br><img id="forecast_icon2" src="PNG/01n.png">
+                      <br><img id="forecast_icon2" src="images/01n.png">
                       <br><span id="forecast_description2">-</span>
                       <br>Max: <span id="forecast_maxTemp2">-</span>℃
                       <br>Min: <span id="forecast_minTemp2">-</span>℃<br>
@@ -60,7 +70,7 @@
                   <td>
                     <div id="forecast3" class="weather" >
                       <span id="forecast_time3">Übermorgen</span>
-                      <br><img id="forecast_icon3" src="PNG/01n.png">
+                      <br><img id="forecast_icon3" src="images/01n.png">
                       <br><span id="forecast_description3">-</span>
                       <br>Max: <span id="forecast_maxTemp3">-</span>℃
                       <br>Min: <span id="forecast_minTemp3">-</span>℃<br>

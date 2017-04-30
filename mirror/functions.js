@@ -2,7 +2,7 @@
 //-------------DATA----TEST---------------------------------------------------------------------------------------------------
 //-------------------------------------------------------------------------------------------------------------------------
 //test comment
-
+//var settingsURL = 'http://localhost:8081/settings';
 var settingsURL = 'http://192.168.1.124:8081/settings';
 var weatherApiKey = '307fbfa5c26f248d4bf737722b750fad';
 var city = 'Zuerich';
@@ -20,6 +20,7 @@ var selectedId; //die ID des selceted element
 var errorForecast = false;
 var weatherInterval = 900000; //time to weather refresh DEFAULT 900000
 var texts;
+//var commandTest = require(annyang-commands/commands.js);
 
 
 
@@ -31,160 +32,17 @@ var texts;
 $(document).ready(function () {
     //Init Language
     initText();
-
+    //getCommands();
+    console.log(texts.language);
     if (annyang) {
       annyang.setLanguage(language);
+
   // Let's define our first command. First the text we expect, and then the function it should call
-  var commands = {
-    'vorhersage ein': function() {
-      if(errorForecast === false){
-        document.getElementById("forecast1").style.display = "block";
-        document.getElementById("forecast2").style.display = "block";
-        document.getElementById("forecast3").style.display = "block";
-      }else{
-        document.getElementById('errorText').innerHTML = texts.HOME_ERROR_FORECAST;
-        textToVoice(texts.HOME_ERROR_FORECAST,texts.language);
-      }
-    },
-    'wettervorhersage ein': function() {
-      if(errorForecast === false){
-        document.getElementById("forecast1").style.display = "block";
-        document.getElementById("forecast2").style.display = "block";
-        document.getElementById("forecast3").style.display = "block";
-      }else{
-        console.log(texts.title);
-        document.getElementById('errorText').innerHTML = texts.HOME_ERROR_FORECAST;
-        textToVoice(texts.HOME_ERROR_FORECAST,texts.language);
-      }
-    },
-    'forecast on': function() {
-      if(errorForecast === false){
-        document.getElementById("forecast1").style.display = "block";
-        document.getElementById("forecast2").style.display = "block";
-        document.getElementById("forecast3").style.display = "block";
-      }else{
-        document.getElementById('errorText').innerHTML = texts.HOME_ERROR_FORECAST;
-        textToVoice(texts.HOME_ERROR_FORECAST,texts.language);      }
-    },
-    'vorhersage aus': function() {
-      document.getElementById("forecast1").style.display = "none";
-      document.getElementById("forecast2").style.display = "none";
-      document.getElementById("forecast3").style.display = "none";
-    },
-    'wettervorhersage aus': function() {
-      document.getElementById("forecast1").style.display = "none";
-      document.getElementById("forecast2").style.display = "none";
-      document.getElementById("forecast3").style.display = "none";
-    },
-    'forecast off': function() {
-      document.getElementById("forecast1").style.display = "none";
-      document.getElementById("forecast2").style.display = "none";
-      document.getElementById("forecast3").style.display = "none";
-    },
-    'zitat aus': function() {
-      document.getElementById("quote").style.display = "none";
-    },
-    'quote off': function() {
-      document.getElementById("quote").style.display = "none";
-    },
-    'zitat ein': function() {
-      document.getElementById("quote").style.display = "block";
-    },
-    'quote on': function() {
-      document.getElementById("quote").style.display = "block";
-    },
-    //--------------------Eyetraking---------------------------
-    'augen ein': function() {
-      webgazer.setGazeListener(function(data, elapsedTime) {
-        if (data === null) {
-            return;
-        }
-        var xprediction = data.x; //these x coordinates are relative to the viewport
-        var yprediction = data.y; //these y coordinates are relative to the viewport
-        //console.log(elapsedTime); //elapsed time is based on time since begin was called
-        if(xprediction+40 < window.innerWidth && yprediction+40 < window.innerHeight){
-          document.getElementById("prediction").style.position = "absolute";
-          document.getElementById("prediction").style.left = xprediction+'px';
-          document.getElementById("prediction").style.top = yprediction+'px';
-        }
-        //check if eyepostition +- 100 of wheater element
-        if(xprediction-100 < document.getElementById('weather').getBoundingClientRect().left   && xprediction+100 > document.getElementById('weather').getBoundingClientRect().left && yprediction-100 < document.getElementById('weather').getBoundingClientRect().top   && yprediction+100 > document.getElementById('weather').getBoundingClientRect().top){
-          document.getElementById("weather").style.color = 'red';
-          document.getElementById("quote").innerHTML="Wetter wurde Selektiert, um  die Stadt zu ändern sagen Sie zum Beispiel: -Stadt Bern- ";
-          selectedId = "weather";
-        }else{
-          if(timer>=200){
-            document.getElementById("weather").style.color = 'white';
-            document.getElementById("quote").innerHTML="";
-            selectedId = "";
-            timer = 0;
-          }
-          timer++;
-        }
-      }).begin();
-    },
-    //--------------------Eyetraking---------------------------
-    'augen aus': function() {
-      if(webgazer){
-        webgazer.end();
-      }
-      console.log("augen aus");
-      document.getElementById("prediction").style.left = '-50px';
-      document.getElementById("prediction").style.top = '-50px';
-    },
-    'wie ist das wetter in *stadt': function(stadt) {
-      /*forecastWeatherURL = 'http://api.openweathermap.org/data/2.5/forecast?q='+ stadt +'&units=metric&id=524901&APPID='+weatherApiKey;
-      currentWeatherURL = 'http://api.openweathermap.org/data/2.5/weather?q='+ stadt +'&units=metric&id=524901&APPID='+weatherApiKey;
-      initWeather();
-      initForecast();*/
-      console.log("wie ist das wetter in"+stadt);
-      document.getElementById('loading').style.display = "block";
-      speechWetterUrl = 'http://api.openweathermap.org/data/2.5/weather?q='+ stadt +'&units=metric&id=524901&APPID='+weatherApiKey;
-      $.getJSON(speechWetterUrl, function(data) {
-        var text = 'In ' + data.name + ' ist es ' +data.main.temp+'°C';
-        textToVoice(text,language);
-        document.getElementById('loading').style.display = "none";
-      }).fail(function() {
-        var text = "Es konnten keine Wetterdaten für "+stadt+" geladen werden";
-        textToVoice(text,language);
-        document.getElementById('loading').style.display = "none";
-      });
-    },
-    'stadt *stadt': function(stadt) {
-      if(selectedId == "weather"){
-        forecastWeatherURL = 'http://api.openweathermap.org/data/2.5/forecast?q='+ stadt +'&units=metric&id=524901&APPID='+weatherApiKey;
-        currentWeatherURL = 'http://api.openweathermap.org/data/2.5/weather?q='+ stadt +'&units=metric&id=524901&APPID='+weatherApiKey;
-        initWeather();
-        initForecast();
-      }
-    },
-    'sprache englisch': function() {
-      language = "en";
-      annyang.setLanguage("en");
-      console.log(language);
-      initForecast();
-      initWeather();
-    },
-    'language german': function() {
-      language = "de";
-      annyang.setLanguage("de");
-      console.log(language);
-      initForecast();
-      initWeather();
-    },
-    'news': function() {
-      window.location = "../mirror/news";
-    },
-    'maps': function() {
-      window.location = "../mirror/maps";
-    }
-  };
+  //the commands are located in the separated annyang-commands/commands.js file
   //remove commands from previous pages
   annyang.removeCommands();
   // Add our commands to annyang
   annyang.addCommands(commands);
-
-
   // Start listening. You can call this here, or attach this call to an event, button, etc.
   annyang.start();
 }
@@ -224,39 +82,11 @@ $(document).ready(function () {
 //-------------------------------------------------------------------------------------------------------------------------
 
 
-startTime = function (container) {
-    var today = new Date();
-    var day = today.getDate();
-    var month = today.getMonth();
-    var year = today.getFullYear();
-    var h = today.getHours();
-    var m = today.getMinutes();
-    var s = today.getSeconds();
-
-    day = checkTime(day);
-    month = checkTime(month);
-    m = checkTime(m);
-    s = checkTime(s);
-
-    $('#'+container)[0].innerHTML = h + ':' + m + ':' + s + '<br><span class="date">' + day+'.'+month+'.'+year+'</span>';
-
-    setTimeout(function() {
-        startTime(container);
-    }, 500);
-},
-
-checkTime = function (i) {
-    if (i < 10) {
-        i = '0' + i;
-    }
-    return i;
-},
-
 initWeather = function () {
     console.log("getting weather...");
     $.getJSON(currentWeatherURL, function(data) {
 
-        $('#icon')[0].src = 'PNG/'+ data.weather[0].icon +'.png';
+        $('#icon')[0].src = 'images/'+ data.weather[0].icon +'.png';
         $('#location')[0].innerHTML = data.name;
         $('#temp')[0].innerHTML = data.main.temp;
         $('#description')[0].innerHTML = translateWeather(data.weather[0].description);
@@ -290,7 +120,7 @@ initForecast = function () {
       while(data.list[j]){
         if(data.list[i].dt_txt.substring(9,10).localeCompare(data.list[j].dt_txt.substring(9,10)) === 0){
             if(data.list[i].weather[0].icon.endsWith('d')) {
-              icons[icons.length] = 'PNG/'+ data.list[i].weather[0].icon +'.png';
+              icons[icons.length] = 'images/'+ data.list[i].weather[0].icon +'.png';
               weatherText[weatherText.length] = data.list[i].weather[0].description;
             }
             if(temp_minArr[nextDay] > data.list[i].main.temp_min){
@@ -301,7 +131,7 @@ initForecast = function () {
             }
           }else{
               if(icons.length === 0){
-                icons[icons.length] = 'PNG/'+ data.list[i].weather[0].icon +'.png';
+                icons[icons.length] = 'images/'+ data.list[i].weather[0].icon +'.png';
                 weatherText[weatherText.length] = data.list[i].weather[0].description;
               }
               displayIcons[nextDay] = mode(icons);
@@ -427,7 +257,7 @@ initText = function(){
       $.ajax({
           'async': false,
           'global': false,
-          'url': "text.json",
+          'url': "multi-lang-support/text.json",
           'dataType': "json",
           'success': function (data) {
               textdata = data;
@@ -438,6 +268,7 @@ initText = function(){
   texts = textdata[language];
 
 },
+
 
 getRandomInt = function (min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
