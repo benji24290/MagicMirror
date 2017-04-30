@@ -7,7 +7,7 @@ var settingsURL = 'http://192.168.1.124:8081/settings';
 var weatherApiKey = '307fbfa5c26f248d4bf737722b750fad';
 var city = 'Zuerich';
 var country = 'ch';
-var forecastWeatherURL = 'ttp://api.openweathermap.org/data/2.5/forecast?q='+ city +','+ country +'&units=metric&id=524901&APPID='+weatherApiKey;
+var forecastWeatherURL = 'http://api.openweathermap.org/data/2.5/forecast?q='+ city +','+ country +'&units=metric&id=524901&APPID='+weatherApiKey;
 var currentWeatherURL = 'http://api.openweathermap.org/data/2.5/weather?q='+ city +','+ country +'&units=metric&id=524901&APPID='+weatherApiKey;
 var clockStyle;
 var quoteCategories;
