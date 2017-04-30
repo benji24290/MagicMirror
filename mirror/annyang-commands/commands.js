@@ -105,7 +105,7 @@ var commands = {
     speechWetterUrl = 'http://api.openweathermap.org/data/2.5/weather?q='+ stadt +'&units=metric&id=524901&APPID='+weatherApiKey;
     $.getJSON(speechWetterUrl, function(data) {
       var text = 'In ' + data.name + ' ist es ' +data.main.temp+'°C';
-      textToVoice(text,language);
+      textToVoice(text,texts.language);
       document.getElementById('loading').style.display = "none";
     }).fail(function() {
       var text = "Es konnten keine Wetterdaten für "+stadt+" geladen werden";
@@ -125,6 +125,8 @@ var commands = {
     language = "en";
     annyang.setLanguage("en");
     console.log(language);
+    initText();
+    initWeatherText();
     initForecast();
     initWeather();
   },
@@ -132,6 +134,8 @@ var commands = {
     language = "de";
     annyang.setLanguage("de");
     console.log(language);
+    initText();
+    initWeatherText();
     initForecast();
     initWeather();
   },

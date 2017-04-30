@@ -20,6 +20,7 @@ var selectedId; //die ID des selceted element
 var errorForecast = false;
 var weatherInterval = 900000; //time to weather refresh DEFAULT 900000
 var texts;
+var weatherConditionText;
 //var commandTest = require(annyang-commands/commands.js);
 
 
@@ -32,6 +33,9 @@ var texts;
 $(document).ready(function () {
     //Init Language
     initText();
+    initWeatherText();
+
+
     //getCommands();
     console.log(texts.language);
     if (annyang) {
@@ -89,7 +93,7 @@ initWeather = function () {
         $('#icon')[0].src = 'images/'+ data.weather[0].icon +'.png';
         $('#location')[0].innerHTML = data.name;
         $('#temp')[0].innerHTML = data.main.temp;
-        $('#description')[0].innerHTML = translateWeather(data.weather[0].description);
+        $('#description')[0].innerHTML = weatherConditionText["w"+data.weather[0].id];
         //$('#maxTemp')[0].innerHTML = data.main.temp_max;
         //$('#minTemp')[0].innerHTML = data.main.temp_min;
     }).fail(function() {
@@ -121,7 +125,7 @@ initForecast = function () {
         if(data.list[i].dt_txt.substring(9,10).localeCompare(data.list[j].dt_txt.substring(9,10)) === 0){
             if(data.list[i].weather[0].icon.endsWith('d')) {
               icons[icons.length] = 'images/'+ data.list[i].weather[0].icon +'.png';
-              weatherText[weatherText.length] = data.list[i].weather[0].description;
+              weatherText[weatherText.length] = data.list[i].weather[0].id;
             }
             if(temp_minArr[nextDay] > data.list[i].main.temp_min){
               temp_minArr[nextDay] = data.list[i].main.temp_min;
@@ -132,10 +136,10 @@ initForecast = function () {
           }else{
               if(icons.length === 0){
                 icons[icons.length] = 'images/'+ data.list[i].weather[0].icon +'.png';
-                weatherText[weatherText.length] = data.list[i].weather[0].description;
+                weatherText[weatherText.length] = data.list[i].weather[0].id;
               }
               displayIcons[nextDay] = mode(icons);
-              displayWeatherText[nextDay] = mode(weatherText);
+              displayWeatherText[nextDay] = "w"+ mode(weatherText);
               icons = [];
               weatherText = [];
               nextDay=nextDay + 1;
@@ -151,19 +155,19 @@ initForecast = function () {
       $('#forecast_minTemp1')[0].innerHTML = temp_minArr[0];
       $('#forecast_maxTemp1')[0].innerHTML = temp_maxArr[0];
       $('#forecast_icon1')[0].src =displayIcons[0];
-      $('#forecast_description1')[0].innerHTML =translateWeather(displayWeatherText[0]);
+      $('#forecast_description1')[0].innerHTML =weatherConditionText[displayWeatherText[0]];
 
 
       $('#forecast_minTemp2')[0].innerHTML = temp_minArr[1];
       $('#forecast_maxTemp2')[0].innerHTML = temp_maxArr[1];
       $('#forecast_icon2')[0].src =displayIcons[1];
-      $('#forecast_description2')[0].innerHTML =translateWeather(displayWeatherText[1]);
+      $('#forecast_description2')[0].innerHTML =weatherConditionText[displayWeatherText[1]];
 
 
       $('#forecast_minTemp3')[0].innerHTML = temp_minArr[2];
       $('#forecast_maxTemp3')[0].innerHTML = temp_maxArr[2];
       $('#forecast_icon3')[0].src =displayIcons[2];
-      $('#forecast_description3')[0].innerHTML =translateWeather(displayWeatherText[2]);
+      $('#forecast_description3')[0].innerHTML =weatherConditionText[displayWeatherText[2]];
 
       /*
         $('#icon')[0].src = '/PNG/'+ data.weather[0].icon +'.png';
@@ -266,7 +270,22 @@ initText = function(){
       return textdata;
   })();
   texts = textdata[language];
-
+},
+initWeatherText = function(){
+  var weatherdata = (function() {
+      var weatherdata = null;
+      $.ajax({
+          'async': false,
+          'global': false,
+          'url': "multi-lang-support/weather.json",
+          'dataType': "json",
+          'success': function (data) {
+              weatherdata = data;
+          }
+      });
+      return weatherdata;
+  })();
+  weatherConditionText = weatherdata[language];
 },
 
 
