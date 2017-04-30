@@ -71,7 +71,7 @@ $(document).ready(function () {
         error: function(errorThrown) {
             startTime('clock');
             $('#clock')[0].classList.add("clock1");
-            document.getElementById('errorText').innerHTML = "Ihre Einstellungen konnten nicht abgerufen werden.";
+            document.getElementById('errorText').innerHTML = texts.HOME_ERROR_SETTINGS;
            initWeather();
            initForecast();
         }
@@ -241,19 +241,6 @@ textToVoice = function(text, lang){
   };
   window.speechSynthesis.speak(msg);
   annyang.start();
-},
-
-translateWeather = function(text){
-  var english = ["clear sky", "Orange", "Apple", "Mango"];
-  var german = ["Klarer Himmel", "Orange", "Apple", "Mango"];
-  for(var i = 0; i < english.length; i++)
-  {
-    if(text === english[i]){
-      text = german[i];
-    }
-  }
-  return text;
-
 },
 initText = function(){
   var textdata = (function() {
