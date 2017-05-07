@@ -46,7 +46,7 @@ $(document).ready(function () {
   //remove commands from previous pages
   annyang.removeCommands();
   // Add our commands to annyang
-  annyang.addCommands(commands);
+  annyang.addCommands(commandsHome);
   // Start listening. You can call this here, or attach this call to an event, button, etc.
   annyang.start();
 }

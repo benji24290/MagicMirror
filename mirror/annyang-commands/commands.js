@@ -1,4 +1,4 @@
-var commands = {
+var commandsHome = {
   'vorhersage ein': function() {
     if(errorForecast === false){
       document.getElementById("forecast1").style.display = "block";
@@ -144,5 +144,31 @@ var commands = {
   },
   'maps': function() {
     window.location = "../mirror/maps";
+  }
+};
+var commandsNews = {
+  '20 Minuten': function() {
+    selectSource("20min");
+
+  },
+  'Tagesanzeiger': function() {
+    selectSource("Tagesanzeiger");
+
+  },
+  'Blick': function() {
+    selectSource("Blick");
+
+  },
+  'NZZ': function() {
+    selectSource("NZZ");
+
+  },
+  'maps': function() {
+    window.location = "../maps";
+
+  },
+  'home': function() {
+    window.location = "../";
+
   }
 };

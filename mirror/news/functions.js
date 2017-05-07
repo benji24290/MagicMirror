@@ -18,7 +18,7 @@ var twentyMin_Games = 'http://www.20min.ch/screenplayer/?view=117';
 
 //var settingsURL = 'http://192.168.1.124:8081/settings';
 var settingsURL = 'http://localhost:8081/settings';
-var clockStyle;
+var clockStyle = 'clock1';
 var sources;
 
 var twentyMinThemes = ['Front', 'Ausland', 'Schweiz', 'Wirtschaft', 'People', 'Sprot', 'Digital', 'Wissen', 'Auto', 'Games'];
@@ -38,21 +38,10 @@ $(document).ready(function () {
 
   if (annyang) {
     annyang.setLanguage('de');
-    // Let's define our first command. First the text we expect, and then the function it should call
-    var commands = {
-      'maps': function() {
-        window.location = "../maps";
-
-      },
-      'home': function() {
-        window.location = "../";
-
-      }
-    };
     //remove commands from previous pages
     annyang.removeCommands();
     // Add our commands to annyang
-    annyang.addCommands(commands);
+    annyang.addCommands(commandsNews);
 
     // Start listening. You can call this here, or attach this call to an event, button, etc.
     annyang.start();
@@ -72,13 +61,15 @@ $(document).ready(function () {
             clockStyle = settings.layout.selectedClockWidget;
             sources = settings.news.sourcePriorities;
 
-            startTime('clock')
+            startTime('clock');
             $('#clock')[0].classList.add(clockStyle);
             initNews();
         },
         error : function(error){
-          sources = [{"source" : '20min', "priority" : 0}, {"source" : 'Blick', "priority" : 1}, {"source" : 'Tagesanzeiger', "priority" : 2}, {"source" : 'NZZ', "priority" : 3}]
+          sources = [{"source" : '20min', "priority" : 0}, {"source" : 'Blick', "priority" : 1}, {"source" : 'Tagesanzeiger', "priority" : 2}, {"source" : 'NZZ', "priority" : 3}];
           initNews();
+          startTime('clock');
+          $('#clock')[0].classList.add(clockStyle);
         }
     });
 
@@ -94,9 +85,10 @@ initNews = function () {
     sources.sort(compare);
     var html = '';
     $.each(sources, function (i, source) {
-        html += '<li><a href="#" onclick="selectSource(\''+ source.source +'\');">'+ source.source +'</a></li>';
+        html += '<li><a href="#" id="'+ source.source +'" onclick="selectSource(\''+ source.source +'\');">'+ source.source +'</a></li>';
     })
     $('#source')[0].innerHTML = html;
+    selectSource(sources[0].source);
 },
 
 
@@ -121,7 +113,7 @@ selectSource = function (name) {
         currentTheme = null;
          var html = '';
         $.each(twentyMinThemes, function (i, theme) {
-            html += '<li><a href="#" onclick="selectTheme(\''+ name +'\', \''+ theme +'\');">'+ theme +'</a></li>';
+            html += '<li ><a href="#" id="'+theme+'" onclick="selectTheme(\''+ name +'\', \''+ theme +'\');">'+ theme +'</a></li>';
         })
         $('#themes')[0].innerHTML = html;
     } else if(name === 'Tagesanzeiger') {
@@ -129,7 +121,7 @@ selectSource = function (name) {
         currentTheme = null;
         var html = '';
         $.each(tagiThemes, function (i, theme) {
-            html += '<li><a href="#" onclick="selectTheme(\''+ name +'\', \''+ theme +'\');">'+ theme +'</a></li>';
+            html += '<li><a href="#" id="'+theme+'" onclick="selectTheme(\''+ name +'\', \''+ theme +'\');">'+ theme +'</a></li>';
         })
         $('#themes')[0].innerHTML = html;
     } else if(name === 'Blick') {
@@ -137,7 +129,7 @@ selectSource = function (name) {
         currentTheme = null;
          var html = '';
         $.each(blickThemes, function (i, theme) {
-            html += '<li><a href="#" onclick="selectTheme(\''+ name +'\', \''+ theme +'\');">'+ theme +'</a></li>';
+            html += '<li><a href="#" id="'+theme+'" onclick="selectTheme(\''+ name +'\', \''+ theme +'\');">'+ theme +'</a></li>';
         })
         $('#themes')[0].innerHTML = html;
     } else if(name === 'NZZ') {
@@ -145,10 +137,20 @@ selectSource = function (name) {
         currentTheme = null;
          var html = '';
         $.each(nzzThemes, function (i, theme) {
-            html += '<li><a href="#" onclick="selectTheme(\''+ name +'\', \''+ theme +'\');">'+ theme +'</a></li>';
+            html += '<li><a href="#" id="'+theme+'" onclick="selectTheme(\''+ name +'\', \''+ theme +'\');">'+ theme +'</a></li>';
         })
         $('#themes')[0].innerHTML = html;
     }
+    document.getElementById("20min").className="nSelectedNews";
+    document.getElementById("NZZ").className="nSelectedNews";
+    document.getElementById("Tagesanzeiger").className="nSelectedNews";
+    document.getElementById("Blick").className="nSelectedNews";
+    document.getElementById(name).className="selectedNews";
+    selectTheme(name,"Front");
+    //document.getElementById("Front").focus();
+
+
+
 },
 
 selectTheme = function (source, theme) {
@@ -157,6 +159,8 @@ selectTheme = function (source, theme) {
     if(source === '20min') {
         var url = window['twentyMin_'+theme];
         $('#news')[0].innerHTML = '<iframe src="'+ url +'" style="width : 100%; height : 700px;"></iframe>';
+
+
 
     } else if(source === 'Tagesanzeiger') {
 
@@ -169,6 +173,7 @@ selectTheme = function (source, theme) {
         } else {
             var xmlURL = 'http://www.tagesanzeiger.ch/'+theme.toLowerCase()+'/rss.html';
         }
+
         currentTheme = theme;
         $.ajax({
             type: 'GET',
@@ -232,6 +237,8 @@ selectTheme = function (source, theme) {
         });
 
     }
+    $("#themes li").removeClass("selectedTheme");
+    document.getElementById(theme).className="selectedTheme";
 },
 
 buildTagiData = function (data, index, theme) {
