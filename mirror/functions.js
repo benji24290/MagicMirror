@@ -19,8 +19,8 @@ var timer = 0; //wie lange ein element selected ist
 var selectedId; //die ID des selceted element
 var errorForecast = false;
 var weatherInterval = 900000; //time to weather refresh DEFAULT 900000
-var texts;
 var weatherConditionText;
+var texts;
 //var commandTest = require(annyang-commands/commands.js);
 
 
@@ -37,7 +37,7 @@ $(document).ready(function () {
 
 
     //getCommands();
-    console.log(texts.language);
+    //console.log(texts.language);
     if (annyang) {
       annyang.setLanguage(language);
 
@@ -61,7 +61,8 @@ $(document).ready(function () {
             quoteCategories = settings.quotes.selectedCategories;
             clockStyle = settings.layout.selectedClockWidget;
             language = settings.general.selectedLang.code;
-
+            annyang.setLanguage(language);
+            initWeatherText();
             initWeather();
             initForecast();
             initQuote();
@@ -97,8 +98,9 @@ initWeather = function () {
         //$('#maxTemp')[0].innerHTML = data.main.temp_max;
         //$('#minTemp')[0].innerHTML = data.main.temp_min;
     }).fail(function() {
-    document.getElementById('errorText').innerHTML = texts.HOME_ERROR_WEATHER;
-    textToVoice(texts.HOME_ERROR_WEATHER,language);
+    initText(language);
+    displayError('HOME_ERROR_WEATHER');
+    speak('HOME_ERROR_WEATHER',language);
   });
   setTimeout(function() {
       initWeather();
@@ -174,7 +176,9 @@ initForecast = function () {
         $('#temp')[0].innerHTML = data.main.temp;
         */
     }).fail(function() {
-    document.getElementById('errorText').innerHTML = texts.HOME_ERROR_FORECAST;
+    initText(language);
+    displayError('HOME_ERROR_FORECAST');
+    speak('HOME_ERROR_FORECAST',language);
     document.getElementById("forecast1").style.display = "none";
     document.getElementById("forecast2").style.display = "none";
     document.getElementById("forecast3").style.display = "none";
@@ -223,41 +227,6 @@ mode = function(array){
     return maxEl;
 },
 
-textToVoice = function(text, lang){
-  var langCode = ["de", "en", "es", "fr"];
-  var langCodeVoice = ["de-CH", "en-US", "es-ES", "fr-FR"];
-  var voiceCode;
-  annyang.abort();
-  var msg = new SpeechSynthesisUtterance( text );
-  for(var i = 0; i < langCode.length; i++)
-  {
-    if(lang === langCode[i]){
-      voiceCode = langCodeVoice[i];
-    }
-  }
-  msg.lang = voiceCode;
-  msg.onend = function(e) {
-  //  annyang.start();
-  };
-  window.speechSynthesis.speak(msg);
-  annyang.start();
-},
-initText = function(){
-  var textdata = (function() {
-      var textdata = null;
-      $.ajax({
-          'async': false,
-          'global': false,
-          'url': "multi-lang-support/text.json",
-          'dataType': "json",
-          'success': function (data) {
-              textdata = data;
-          }
-      });
-      return textdata;
-  })();
-  texts = textdata[language];
-},
 initWeatherText = function(){
   var weatherdata = (function() {
       var weatherdata = null;
