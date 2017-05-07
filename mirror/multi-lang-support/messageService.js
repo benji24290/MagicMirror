@@ -21,6 +21,9 @@ initText = function(language){
 
 displayError = function (key) {
     document.getElementById('errorText').innerHTML = texts[key];
+    window.setTimeout(function() {
+      document.getElementById('errorText').innerHTML = "";
+    }, 9000);
 },
 
 hideError = function () {

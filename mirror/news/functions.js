@@ -27,6 +27,7 @@ var blickThemes = ['Front', 'Ausland', 'Schweiz', 'Zürich', 'Wirtschaft', 'Spor
 var nzzThemes = ['Front', 'International', 'Schweiz', 'Zürich', 'Wirtschaft', 'Finanzen', 'Kultur', 'Sport', 'Panorama', 'Wissenschaft', 'Auto', 'Digital'];
 
 var currentTheme = '';
+var currentSource = '';
 
 
 //------------------------------------------------------------------------------------------------------------------------------------------
@@ -46,6 +47,31 @@ $(document).ready(function () {
     // Start listening. You can call this here, or attach this call to an event, button, etc.
     annyang.start();
     }
+
+    gest.options.subscribeWithCallback(function(gesture) {
+				var message = '';
+				if (gesture.direction) {
+					message = gesture.direction;
+				} else {
+					message = gesture.error.message;
+				}
+
+				//console.log(message);
+        if(message == "Right"){
+          console.log("r");
+          selectTheme(currentSource,checkNextTheme("next"));
+        }
+        if(message == "Left"){
+          console.log("l");
+          selectTheme(currentSource,checkNextTheme("before"));
+        }
+        
+			});
+
+			gest.start();
+
+
+
     // Get settings from DB
     $.ajax({
         type: 'GET',
@@ -116,6 +142,7 @@ selectSource = function (name) {
             html += '<li ><a href="#" id="'+theme+'" onclick="selectTheme(\''+ name +'\', \''+ theme +'\');">'+ theme +'</a></li>';
         })
         $('#themes')[0].innerHTML = html;
+        currentSource = name;
     } else if(name === 'Tagesanzeiger') {
         $('#news')[0].innerHTML = '';
         currentTheme = null;
@@ -124,6 +151,7 @@ selectSource = function (name) {
             html += '<li><a href="#" id="'+theme+'" onclick="selectTheme(\''+ name +'\', \''+ theme +'\');">'+ theme +'</a></li>';
         })
         $('#themes')[0].innerHTML = html;
+        currentSource = name;
     } else if(name === 'Blick') {
         $('#news')[0].innerHTML = '';
         currentTheme = null;
@@ -132,6 +160,7 @@ selectSource = function (name) {
             html += '<li><a href="#" id="'+theme+'" onclick="selectTheme(\''+ name +'\', \''+ theme +'\');">'+ theme +'</a></li>';
         })
         $('#themes')[0].innerHTML = html;
+        currentSource = name;
     } else if(name === 'NZZ') {
         $('#news')[0].innerHTML = '';
         currentTheme = null;
@@ -140,6 +169,7 @@ selectSource = function (name) {
             html += '<li><a href="#" id="'+theme+'" onclick="selectTheme(\''+ name +'\', \''+ theme +'\');">'+ theme +'</a></li>';
         })
         $('#themes')[0].innerHTML = html;
+        currentSource = name;
     }
     document.getElementById("20min").className="nSelectedNews";
     document.getElementById("NZZ").className="nSelectedNews";
@@ -159,6 +189,7 @@ selectTheme = function (source, theme) {
     if(source === '20min') {
         var url = window['twentyMin_'+theme];
         $('#news')[0].innerHTML = '<iframe src="'+ url +'" style="width : 100%; height : 700px;"></iframe>';
+        currentTheme = theme;
 
 
 
@@ -237,7 +268,7 @@ selectTheme = function (source, theme) {
         });
 
     }
-    $("#themes li").removeClass("selectedTheme");
+    $("#themes li a").removeClass("selectedTheme");
     document.getElementById(theme).className="selectedTheme";
 },
 
@@ -339,6 +370,53 @@ buildNZZData = function (data, index, theme) {
     }
 
 },
+checkNextTheme = function (select) {
+  var next;
+  var before;
+  var themelist;
+  if(currentSource){
+    if(currentSource == "20min"){
+      themelist = twentyMinThemes;
+    }
+    if(currentSource == "NZZ"){
+      themelist = nzzThemes;
+    }
+    if(currentSource == "Tagesanzeiger"){
+      themelist = tagiThemes;
+    }
+    if(currentSource == "Blick"){
+      themelist = blickThemes;
+    }
+
+    for(var i=0; i < themelist.length; i++)
+    {
+        if(themelist[i] === currentTheme)
+          if(i+1 < themelist.length){
+            next = themelist[i+1];
+          }else{
+            next = themelist[0];
+          }
+          if(i === 0){
+            before = themelist[themelist.length+1];
+
+          }else {
+            before = themelist[i-1];
+          }
+
+
+    }
+  }
+  if(select == "before"){
+    console.log(before+next);
+    return before;
+  }
+  if(select == "next"){
+    console.log(before+next);
+    return next;
+  }
+
+},
+
 
 
 //------------------------------------------------------------------------------------------------------------------------------------------
