@@ -31,10 +31,6 @@ var texts;
 
 
 $(document).ready(function () {
-    //Init Language
-    initText();
-    initWeatherText();
-
 
     //getCommands();
     //console.log(texts.language);
@@ -61,6 +57,9 @@ $(document).ready(function () {
             quoteCategories = settings.quotes.selectedCategories;
             clockStyle = settings.layout.selectedClockWidget;
             language = settings.general.selectedLang.code;
+            //Init Language
+            initText(language);
+            initWeatherText();
             annyang.setLanguage(language);
             initWeatherText();
             initWeather();
@@ -70,6 +69,9 @@ $(document).ready(function () {
             $('#clock')[0].classList.add(clockStyle);
         },
         error: function(errorThrown) {
+          //Init Language
+          initText(language);
+          initWeatherText();
             startTime('clock');
             $('#clock')[0].classList.add("clock1");
             document.getElementById('errorText').innerHTML = texts.HOME_ERROR_SETTINGS;
@@ -90,17 +92,15 @@ $(document).ready(function () {
 initWeather = function () {
     console.log("getting weather...");
     $.getJSON(currentWeatherURL, function(data) {
-
-        $('#icon')[0].src = 'images/'+ data.weather[0].icon +'.png';
-        $('#location')[0].innerHTML = data.name;
-        $('#temp')[0].innerHTML = data.main.temp;
-        $('#description')[0].innerHTML = weatherConditionText["w"+data.weather[0].id];
-        //$('#maxTemp')[0].innerHTML = data.main.temp_max;
-        //$('#minTemp')[0].innerHTML = data.main.temp_min;
+      document.getElementById('weather').style.display = "block";
+      $('#icon')[0].src = 'images/'+ data.weather[0].icon +'.png';
+      $('#location')[0].innerHTML = data.name;
+      $('#temp')[0].innerHTML = data.main.temp;
+      $('#description')[0].innerHTML = weatherConditionText["w"+data.weather[0].id];
     }).fail(function() {
-    initText(language);
     displayError('HOME_ERROR_WEATHER');
     speak('HOME_ERROR_WEATHER',language);
+    document.getElementById('weather').style.display = "none";
   });
   setTimeout(function() {
       initWeather();
@@ -108,6 +108,7 @@ initWeather = function () {
 },
 
 initForecast = function () {
+    initText(language);
     console.log("getting forecast...");
     $.getJSON(forecastWeatherURL, function(data) {
       var today = new Date();
@@ -154,18 +155,19 @@ initForecast = function () {
       //console.log(displayIcons);
       //console.log(translateWeather(displayWeatherText[0]));
       //$('#maxTemp')[0].innerHTML = data.main.temp_max;
+      $('#forecast_time1')[0].innerHTML = texts.HOME_INFO_FORECAST_DAY1;
       $('#forecast_minTemp1')[0].innerHTML = temp_minArr[0];
       $('#forecast_maxTemp1')[0].innerHTML = temp_maxArr[0];
       $('#forecast_icon1')[0].src =displayIcons[0];
       $('#forecast_description1')[0].innerHTML =weatherConditionText[displayWeatherText[0]];
 
-
+      $('#forecast_time2')[0].innerHTML = texts.HOME_INFO_FORECAST_DAY2;
       $('#forecast_minTemp2')[0].innerHTML = temp_minArr[1];
       $('#forecast_maxTemp2')[0].innerHTML = temp_maxArr[1];
       $('#forecast_icon2')[0].src =displayIcons[1];
       $('#forecast_description2')[0].innerHTML =weatherConditionText[displayWeatherText[1]];
 
-
+      $('#forecast_time3')[0].innerHTML = texts.HOME_INFO_FORECAST_DAY3;
       $('#forecast_minTemp3')[0].innerHTML = temp_minArr[2];
       $('#forecast_maxTemp3')[0].innerHTML = temp_maxArr[2];
       $('#forecast_icon3')[0].src =displayIcons[2];
@@ -176,7 +178,6 @@ initForecast = function () {
         $('#temp')[0].innerHTML = data.main.temp;
         */
     }).fail(function() {
-    initText(language);
     displayError('HOME_ERROR_FORECAST');
     speak('HOME_ERROR_FORECAST',language);
     document.getElementById("forecast1").style.display = "none";
