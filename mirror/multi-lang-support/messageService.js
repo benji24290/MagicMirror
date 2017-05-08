@@ -1,28 +1,63 @@
 var texts = {};
+var weatherConditionText = {};
 
 initText = function(language){
-  var textdata = (function() {
-      var textdata = null;
-      $.ajax({
-          'async': false,
-          'global': false,
-          'url': "multi-lang-support/text.json",
-          'dataType': "json",
-          'success': function (data) {
-              textdata = data;
-          }
-      });
-      return textdata;
-  })();
+    var textdata = (function() {
+        var textdata = null;
+        $.ajax({
+            'async': false,
+            'global': false,
+            'url': "multi-lang-support/text.json",
+            'dataType': "json",
+            'success': function (data) {
+                textdata = data;
+            },
+            'error': function (error) {
+                $.ajax({
+                    'async': false,
+                    'global': false,
+                    'url': "../multi-lang-support/text.json",
+                    'dataType': "json",
+                    'success': function (data) {
+                        textdata = data;
+                    }
+                });
+            }
+        });
+        return textdata;
+    })();
+    
     texts = textdata[language];
     return texts;
-    console.log(texts);
+},
+    
+initWeatherText = function(language){
+    var weatherdata = (function() {
+        var weatherdata = null;
+        $.ajax({
+            'async': false,
+            'global': false,
+            'url': "multi-lang-support/weather.json",
+            'dataType': "json",
+            'success': function (data) {
+                weatherdata = data;
+            }
+        });
+        return weatherdata;
+    })();
+    
+    weatherConditionText = weatherdata[language];
+    return weatherConditionText;
+},
+    
+getText = function (key) {
+    return texts[key];
 },
 
 displayError = function (key) {
     document.getElementById('errorText').innerHTML = texts[key];
     window.setTimeout(function() {
-      document.getElementById('errorText').innerHTML = "";
+      hideError();
     }, 9000);
 },
 
@@ -44,8 +79,7 @@ speak = function(key, lang){
   }
   msg.lang = voiceCode;
   msg.onend = function(e) {
-  //  annyang.start();
+      annyang.start();
   };
   window.speechSynthesis.speak(msg);
-  annyang.start();
 }

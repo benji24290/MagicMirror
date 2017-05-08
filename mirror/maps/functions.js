@@ -2,11 +2,8 @@
 //--------------------DATA------------------------------------------------------------------------------------------------------------------
 //------------------------------------------------------------------------------------------------------------------------------------------
 
-
-var settingsURL = 'http://localhost:8081/settings';
 var map;
 var socket;
-
 
 //------------------------------------------------------------------------------------------------------------------------------------------
 //--------------------INITIALISATION--------------------------------------------------------------------------------------------------------
@@ -15,48 +12,25 @@ var socket;
 
 $(document).ready(function () {
 
-  if (annyang) {
-    annyang.setLanguage('de');
-    // Let's define our first command. First the text we expect, and then the function it should call
-    var commands = {
-        'news': function() {
-            window.location = "../news";
-
-          },
-        'home': function() {
-            window.location = "../";
-
-          }
-      };
-
-    //remove commands from previous pages
-    annyang.removeCommands();
-    // Add our commands to annyang
-    annyang.addCommands(commands);
-
-    // Start listening. You can call this here, or attach this call to an event, button, etc.
-    annyang.start();
-  }
-    // Get settings from DB
-  $.ajax({
-        type: 'GET',
-        contentType: 'application/json',
-        url: settingsURL,
-        success : function(data){
-            socket = io.connect('http://localhost:8081');
-            socket.on('SETTINGS_UPDATE', function(data) {
-                refreshData();
-            });
-            var settings = JSON.parse(data)[0];
-
-            clockStyle = settings.layout.selectedClockWidget;
-
-            startTime('clock');
-            $('#clock')[0].classList.add(clockStyle);
-            initMap();
-        }
-    });
-
+    if (annyang) {
+        annyang.setLanguage('de');
+        var commands = {
+            'news': function() {
+                window.location = "../news";
+            },
+            'home': function() {
+                window.location = "../";
+            }
+        };
+        //remove commands from previous pages
+        annyang.removeCommands();
+        // Add our commands to annyang
+        annyang.addCommands(commands);
+        // Start listening
+        annyang.start();
+    }
+    
+    setupData(DATA_TYPE.MAPS);
 });
 
 
@@ -82,71 +56,4 @@ initMap = function () {
         map.setCenter(pos);
         }, function() {});
     }
-},
-
-
-//------------------------------------------------------------------------------------------------------------------------------------------
-//--------------------HELPER----------------------------------------------------------------------------------------------------------------
-//------------------------------------------------------------------------------------------------------------------------------------------
-
-
-//--------------------MAP-----------------------------------------------------------------------------------------------------------------
-
-setLocation = function () {
-    var geocoder = new google.maps.Geocoder();
-    var address = $('#location')[0].value;
-
-    geocoder.geocode( { 'address': address}, function(results, status) {
-        if (status == google.maps.GeocoderStatus.OK) {
-            var latitude = results[0].geometry.location.lat();
-            var longitude = results[0].geometry.location.lng();
-
-            var pos = {
-                lat: results[0].geometry.location.lat(),
-                lng: results[0].geometry.location.lng()
-            };
-            map.setCenter(pos);
-            map.setZoom(15);
-            getZoomLevel(pos);
-        }
-    });
-},
-
-getZoomLevel = function (pos) {
-
-    var data = {host : 'maps.googleapis.com', path : '/maps/api/geocode/json?latlng='+ pos.lat +','+ pos.lng +'&sensor=true', method : 'https'};
-    $.ajax({
-            type: 'POST',
-            data: JSON.stringify(data),
-            contentType: 'application/json',
-            url: 'http://localhost:8081/address',
-            success : function (data) {
-                var address = JSON.parse(data).results;
-                // TODO: determine zoom level according to returned data
-            }
-        });
-},
-
-
-//------------------------------------------------------------------------------------------------------------------------------------------
-//--------------------DAO-------------------------------------------------------------------------------------------------------------------
-//------------------------------------------------------------------------------------------------------------------------------------------
-
-
-refreshData = function () {
-    $.ajax({
-        type: 'GET',
-        contentType: 'application/json',
-        url: settingsURL,
-        success : function(data){
-            var settings = JSON.parse(data)[0];
-
-            clockStyle = settings.layout.selectedClockWidget;
-
-            startTime('clock');
-            $('#clock')[0].classList = '';
-            $('#clock')[0].classList.add(clockStyle);
-            initMap();
-        }
-    });
 };
