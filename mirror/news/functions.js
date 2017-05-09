@@ -40,7 +40,7 @@ $(document).ready(function () {
         //remove commands from previous pages
         annyang.removeCommands();
         // Add our commands to annyang
-        annyang.addCommands(commandsNews);
+        annyang.addCommands(commands);
         // Start listening
         annyang.start();
     }

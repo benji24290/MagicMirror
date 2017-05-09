@@ -34,7 +34,7 @@ $(document).ready(function () {
         annyang.removeCommands();
         // Add our commands to annyang
         //the commands are located in a separated file: annyang-commands/commands.js
-        annyang.addCommands(commandsHome);
+        annyang.addCommands(commands);
         // Start listening
         annyang.start();
     }

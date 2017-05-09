@@ -24,7 +24,7 @@
         <script src="../utils/clock.js"></script>
         <script src="../utils/helper.js"></script>
         <script src="../database/database.js"></script>
-        <script type="text/javascript" src="../annyang-commands/commands.js"></script>
+        <script type="text/javascript" src="../annyang-commands/commands-maps.js"></script>
         <script type="text/javascript" src="../multi-lang-support/text.json"></script>
         <script src="../multi-lang-support/messageService.js"></script>
     </head>
@@ -36,9 +36,9 @@
                 <div class="col-md-5 well">
                     <table>
                         <tr>
-                            <td style="padding-right : 15px;">Location:</td>
+                            <td id="location" style="padding-right : 15px;"></td>
                             <td><input type="text" class="form-control" id="location"></td>
-                            <td><button class="btn btn-default" onclick="setLocation();">Go</button></td>
+                            <td><button id="go" class="btn btn-default" onclick="setLocation();"></button></td>
                         </tr>
                     </table>
                 </div>

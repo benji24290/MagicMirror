@@ -14,14 +14,6 @@ $(document).ready(function () {
 
     if (annyang) {
         annyang.setLanguage('de');
-        var commands = {
-            'news': function() {
-                window.location = "../news";
-            },
-            'home': function() {
-                window.location = "../";
-            }
-        };
         //remove commands from previous pages
         annyang.removeCommands();
         // Add our commands to annyang
@@ -40,6 +32,10 @@ $(document).ready(function () {
 
 
 initMap = function () {
+    // Set texts
+    $('#location')[0].innerHTML = getText('MAPS_INFO_LOCATION');
+    $('#go')[0].innerHTML = getText('MAPS_INFO_GO');
+    
     // Create a map object and specify the DOM element for display.
     map = new google.maps.Map($('#map')[0], {
       center: {lat: -34.397, lng: 150.644},
