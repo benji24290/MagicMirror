@@ -21,11 +21,11 @@ mode = function(array){
 
     return maxEl;
 },
-    
+
 getRandomInt = function (min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
 },
-    
+
 //--------------------MAPS-----------------------------------------------------------------------------------------------------------------
 
 setLocation = function () {
@@ -72,11 +72,11 @@ compare = function (a,b) {
         return 1;
     return 0;
 },
-    
+
 checkNextTheme = function (select) {
     var next, before;
     var themelist;
-    
+
     if(currentSource){
         if(currentSource == "20min"){
             themelist = twentyMinThemes;
@@ -92,20 +92,23 @@ checkNextTheme = function (select) {
         }
 
         for(var i=0; i < themelist.length; i++) {
-            if(themelist[i] === currentTheme)
-                if(i+1 < themelist.length){
+            if(themelist[i] === currentTheme){
+                  if(i+1 < themelist.length){
                     next = themelist[i+1];
-            }else{
-                next = themelist[0];
+                  }else{
+                    next = themelist[0];
+                  }
+                  if(i === 0){
+                      before = themelist[themelist.length-1];
+                      console.log(themelist.length);
+                  }else {
+                      before = themelist[i-1];
+                  }
             }
-            if(i === 0){
-                before = themelist[themelist.length+1];
-            }else {
-                before = themelist[i-1];
-            }
+
         }
     }
-    
+
     if(select == "before"){
         console.log(before+next);
         return before;

@@ -34,7 +34,7 @@ var currentSource = '';
 
 
 $(document).ready(function () {
-
+    initText("de");
     if (annyang) {
         annyang.setLanguage('de');
         //remove commands from previous pages
@@ -62,7 +62,7 @@ $(document).ready(function () {
             selectTheme(currentSource,checkNextTheme("before"));
         }
     });
-    
+
     gest.start();
 
     setupData(DATA_TYPE.NEWS);
@@ -128,7 +128,7 @@ selectSource = function (name) {
         $('#themes')[0].innerHTML = html;
         currentSource = name;
     }
-    
+
     document.getElementById("20min").className="nSelectedNews";
     document.getElementById("NZZ").className="nSelectedNews";
     document.getElementById("Tagesanzeiger").className="nSelectedNews";
@@ -144,12 +144,12 @@ selectTheme = function (source, theme) {
         var url = window['twentyMin_'+theme];
         $('#news')[0].innerHTML = '<iframe src="'+ url +'" style="width : 100%; height : 700px;"></iframe>';
         currentTheme = theme;
-        
+
     } else if(source === 'Tagesanzeiger') {
         currentTheme = theme;
         var data = getTagiData(theme);
         buildTagiData(data, 0, theme);
-        
+
     } else if(source === 'Blick') {
         currentTheme = theme;
         var data = getBlickData(theme);

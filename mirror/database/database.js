@@ -7,8 +7,8 @@ var defaultLang = "de";
 var defaultSources = [{"source" : '20min', "priority" : 0}, {"source" : 'Blick', "priority" : 1}, {"source" : 'Tagesanzeiger', "priority" : 2}, {"source" : 'NZZ', "priority" : 3}];
 
 var DATA_TYPE = {
-  HOME : {value: "Home"}, 
-  NEWS: {value: "News"}, 
+  HOME : {value: "Home"},
+  NEWS: {value: "News"},
   MAPS : {value: "Maps"}
 };
 
@@ -21,7 +21,7 @@ setupData = function (dataType) {
         url: settingsURL,
         success : function(data){
             var settings = JSON.parse(data)[0];
-            
+
             if(dataType === DATA_TYPE.HOME) {
                 connectSocket(DATA_TYPE.HOME);
                 setupHome(settings);
@@ -57,29 +57,29 @@ setupHome = function (settings) {
     annyang.setLanguage(language);
     initText(language);
     initWeatherText(language);
-            
+
     clockStyle = settings.layout.selectedClockWidget;
     startTime('clock');
     $('#clock')[0].classList.add(clockStyle);
-            
+
     initWeather();
     initForecast();
-            
+
     quoteInterval = settings.quotes.interval * 60000;
     quoteCategories = settings.quotes.selectedCategories;
     initQuote();
 },
-    
+
 errorSetupHome = function () {
     initText(defaultLang);
     initWeatherText(defaultLang);
-            
+
     startTime('clock');
     $('#clock')[0].classList.add("clock1");
-            
+
     initWeather();
     initForecast();
-            
+
     displayError('HOME_ERROR_SETTINGS');
 },
 
@@ -87,43 +87,43 @@ setupNews = function (settings) {
     language = settings.general.selectedLang.code;
     annyang.setLanguage(language);
     initText(language);
-    
+
     clockStyle = settings.layout.selectedClockWidget;
     startTime('clock');
     $('#clock')[0].classList.add(clockStyle);
-    
+
     sources = settings.news.sourcePriorities;
     initNews();
 },
-    
+
 errorSetupNews = function () {
     startTime('clock');
     $('#clock')[0].classList.add(clockStyle);
-    
+
     sources = defaultSources;
     initNews();
-    
+
     displayError('HOME_ERROR_SETTINGS');
 },
-    
+
 setupMaps = function (settings) {
     language = settings.general.selectedLang.code;
     annyang.setLanguage(language);
     initText(language);
-    
+
     clockStyle = settings.layout.selectedClockWidget;
     startTime('clock');
     $('#clock')[0].classList.add(clockStyle);
-    
+
     initMap();
 },
 
 errorSetupMaps = function () {
     startTime('clock');
     $('#clock')[0].classList.add("clock1");
-    
+
     initMap();
-    
+
     displayError('HOME_ERROR_SETTINGS');
 },
 
@@ -131,7 +131,7 @@ errorSetupMaps = function () {
 
 getTagiData = function (theme) {
     var result = null;
-    
+
     if(theme === 'Front') {
         var xmlURL = 'http://www.tagesanzeiger.ch/rss.html';
     } else if(theme === 'Zürich') {
@@ -141,7 +141,7 @@ getTagiData = function (theme) {
     } else {
         var xmlURL = 'http://www.tagesanzeiger.ch/'+theme.toLowerCase()+'/rss.html';
     }
-    
+
     $.ajax({
         'async': false,
         type: 'GET',
@@ -154,13 +154,13 @@ getTagiData = function (theme) {
             result = error;
         }
     });
-    
+
     return result;
 },
-    
+
 getBlickData = function (theme) {
     var result = null;
-    
+
     if(theme === 'Front') {
         var path = '/news/rss';
     } else if (theme === 'Zürich') {
@@ -184,13 +184,13 @@ getBlickData = function (theme) {
             result = error;
         }
     });
-    
+
     return result;
 },
 
 getNZZData = function (theme) {
     var result = null;
-    
+
     if (theme === 'Front') {
         var path = '/startseite.rss';
     } else if (theme === 'Zürich') {
@@ -216,7 +216,7 @@ getNZZData = function (theme) {
         }, error : function (error) {
             result = error;
         }
-    });   
-    
+    });
+
     return result;
 };

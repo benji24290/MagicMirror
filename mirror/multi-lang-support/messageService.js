@@ -26,11 +26,11 @@ initText = function(language){
         });
         return textdata;
     })();
-    
+
     texts = textdata[language];
     return texts;
 },
-    
+
 initWeatherText = function(language){
     var weatherdata = (function() {
         var weatherdata = null;
@@ -45,11 +45,11 @@ initWeatherText = function(language){
         });
         return weatherdata;
     })();
-    
+
     weatherConditionText = weatherdata[language];
     return weatherConditionText;
 },
-    
+
 getText = function (key) {
     return texts[key];
 },
