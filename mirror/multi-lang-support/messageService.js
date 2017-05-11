@@ -70,7 +70,11 @@ speak = function(key, lang){
   var langCodeVoice = ["de-CH", "en-US", "es-ES", "fr-FR"];
   var voiceCode;
   annyang.abort();
-  var msg = new SpeechSynthesisUtterance( texts[key] );
+  if(texts[key]){
+    var msg = new SpeechSynthesisUtterance( texts[key] );
+  }else {
+    var msg = new SpeechSynthesisUtterance(key);
+  }
   for(var i = 0; i < langCode.length; i++)
   {
     if(lang === langCode[i]){

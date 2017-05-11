@@ -6,7 +6,7 @@ var commands = {
       document.getElementById("forecast3").style.display = "block";
     }else{
       document.getElementById('errorText').innerHTML = texts.HOME_ERROR_FORECAST;
-      textToVoice(texts.HOME_ERROR_FORECAST,texts.language);
+      speak(texts.HOME_ERROR_FORECAST,texts.language);
     }
   },
   'wettervorhersage ein': function() {
@@ -17,7 +17,7 @@ var commands = {
     }else{
       console.log(texts.title);
       document.getElementById('errorText').innerHTML = texts.HOME_ERROR_FORECAST;
-      textToVoice(texts.HOME_ERROR_FORECAST,texts.language);
+      speak(texts.HOME_ERROR_FORECAST,texts.language);
     }
   },
   'forecast on': function() {
@@ -27,7 +27,7 @@ var commands = {
       document.getElementById("forecast3").style.display = "block";
     }else{
       document.getElementById('errorText').innerHTML = texts.HOME_ERROR_FORECAST;
-      textToVoice(texts.HOME_ERROR_FORECAST,texts.language);      }
+      speak(texts.HOME_ERROR_FORECAST,texts.language);      }
   },
   'vorhersage aus': function() {
     document.getElementById("forecast1").style.display = "none";
@@ -108,11 +108,11 @@ var commands = {
     speechWetterUrl = 'http://api.openweathermap.org/data/2.5/weather?q='+ stadt +'&units=metric&id=524901&APPID='+weatherApiKey;
     $.getJSON(speechWetterUrl, function(data) {
       var text = 'In ' + data.name + ' ist es ' +data.main.temp+'°C';
-      textToVoice(text,texts.language);
+      speak(text,language);
       document.getElementById('loading').style.display = "none";
     }).fail(function() {
       var text = "Es konnten keine Wetterdaten für "+stadt+" geladen werden";
-      textToVoice(text,language);
+      speak(text,language);
       document.getElementById('loading').style.display = "none";
     });
   },
@@ -126,11 +126,11 @@ var commands = {
     speechWetterUrl = 'http://api.openweathermap.org/data/2.5/weather?q='+ stadt +'&units=metric&id=524901&APPID='+weatherApiKey;
     $.getJSON(speechWetterUrl, function(data) {
       var text = 'In ' + data.name + ' its ' +data.main.temp+'°C';
-      textToVoice(text,texts.language);
+      speak(text,texts.language);
       document.getElementById('loading').style.display = "none";
     }).fail(function() {
       var text = "Weather data for "+stadt+" could not be loaded";
-      textToVoice(text,language);
+      speak(text,language);
       document.getElementById('loading').style.display = "none";
     });
   },

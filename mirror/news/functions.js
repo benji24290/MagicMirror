@@ -91,7 +91,7 @@ initNews = function () {
 
 
 selectSource = function (name) {
-    if(name === '20min') {
+    if(name === '20min' && currentSource !== name) {
         $('#news')[0].innerHTML = '';
         currentTheme = null;
          var html = '';
@@ -100,7 +100,7 @@ selectSource = function (name) {
         })
         $('#themes')[0].innerHTML = html;
         currentSource = name;
-    } else if(name === 'Tagesanzeiger') {
+    } else if(name === 'Tagesanzeiger' && currentSource !== name) {
         $('#news')[0].innerHTML = '';
         currentTheme = null;
         var html = '';
@@ -109,7 +109,7 @@ selectSource = function (name) {
         })
         $('#themes')[0].innerHTML = html;
         currentSource = name;
-    } else if(name === 'Blick') {
+    } else if(name === 'Blick' && currentSource !== name) {
         $('#news')[0].innerHTML = '';
         currentTheme = null;
          var html = '';
@@ -118,7 +118,7 @@ selectSource = function (name) {
         })
         $('#themes')[0].innerHTML = html;
         currentSource = name;
-    } else if(name === 'NZZ') {
+    } else if(name === 'NZZ' && currentSource !== name) {
         $('#news')[0].innerHTML = '';
         currentTheme = null;
          var html = '';

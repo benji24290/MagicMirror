@@ -148,6 +148,9 @@ input[type=text] {
   border-radius: 10px;
   background-color: black; }
 
+#news {
+  color: white; }
+
 #loading {
   width: 100%;
   color: white;

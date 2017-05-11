@@ -38,7 +38,7 @@ $(document).ready(function () {
         // Start listening
         annyang.start();
     }
-    
+
     setupData(DATA_TYPE.HOME);
 
 });
@@ -51,7 +51,7 @@ $(document).ready(function () {
 
 initWeather = function () {
     console.log("start init weather...");
-    
+
     $.getJSON(currentWeatherURL, function(data) {
         document.getElementById('weather').style.display = "block";
         $('#icon')[0].src = 'images/'+ data.weather[0].icon +'.png';
@@ -74,7 +74,7 @@ initWeather = function () {
 
 initForecast = function () {
     console.log("start init forecast...");
-    
+
     $.getJSON(forecastWeatherURL, function(data) {
         var today = new Date();
         var dayObject = today.getDate();
@@ -89,7 +89,7 @@ initForecast = function () {
         var temp_maxArr=['-200','-200','-200','-200','-200','-200'];
         var weatherText = [];
         var icons = [];
-        
+
         while(data.list[j]){
             if(data.list[i].dt_txt.substring(9,10).localeCompare(data.list[j].dt_txt.substring(9,10)) === 0){
                 if(data.list[i].weather[0].icon.endsWith('d')) {
@@ -116,7 +116,7 @@ initForecast = function () {
             j++;
             i++;
         }
-      
+
         $('#forecast_time1')[0].innerHTML = getText('HOME_INFO_FORECAST_DAY1');
         $('#forecast_minTemp1')[0].innerHTML = temp_minArr[0];
         $('#forecast_maxTemp1')[0].innerHTML = temp_maxArr[0];
@@ -143,10 +143,10 @@ initForecast = function () {
         document.getElementById("forecast2").style.display = "none";
         document.getElementById("forecast3").style.display = "none";
         errorForecast=true;
-        
+
         console.log("finish init forecast with error");
     });
-    
+
     // Refresh forecast after 15min
     setTimeout(function() {
         initForecast();
@@ -155,7 +155,7 @@ initForecast = function () {
 
 initQuote = function () {
     console.log("start init quote...");
-    
+
     var container = $('#quote')[0];
     var category = quoteCategories[getRandomInt(0,quoteCategories.length-1)];
     var url = 'http://quotes.rest/qod.json?category='+category;
