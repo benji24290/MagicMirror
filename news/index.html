@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Magic Mirror</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <!-- STYLES -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+        <link rel="stylesheet" href="../styles.css">
+        <!-- JQUERY -->
+        <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+        <script src="http://code.jquery.com/ui/1.10.2/jquery-ui.js"></script>
+        <!-- BOOTSTRAP -->
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+        <!-- SOCKET IO -->
+        <!-- <script src="http://192.168.1.124:8081/socket.io/socket.io.js"></script> -->
+        <script src="http://localhost:8081/socket.io/socket.io.js"></script>
+        <!-- ANNYANG -->
+        <script src="//cdnjs.cloudflare.com/ajax/libs/annyang/2.6.0/annyang.min.js"></script>
+        <!-- LOCAL -->
+        <script src="../libaries/gest.min.js" type="text/javascript"></script>
+        <script src="functions.js"></script>
+        <script src="../utils/clock.js"></script>
+        <script src="../utils/helper.js"></script>
+        <script src="../database/database.js"></script>
+        <script type="text/javascript" src="../annyang-commands/commands-news.js"></script>
+        <script type="text/javascript" src="../multi-lang-support/text.json"></script>
+        <script src="../multi-lang-support/messageService.js"></script>
+    </head>
+    <body>
+        <div class="container-fluid" style="margin-top : 50px; margin-bottom : 50px;">
+
+            <div class="row">
+                <div class="col-md-1"></div>
+                <div class="col-md-5" >
+                    <table>
+                        <tr>
+                            <td style="padding-right : 15px;"></td>
+                            <td><ul class="pagination1" style="color: white;" id="source"></ul></td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td><ul class="pagination1" id="themes"></ul></td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="col-md-2"></div>
+                <div class="col-md-3">
+                    <div style="margin : 0;" id="clock"></div>
+                </div>
+                <div class="col-md-1"></div>
+            </div>
+            <div class="row">
+                <div class="col-md-1">
+                </div>
+                <div class="col-md-10" id="news">
+                </div>
+                <div class="col-md-1">
+                </div>
+            </div>
+        </div>
+    </body>
+</html>
