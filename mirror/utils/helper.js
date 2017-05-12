@@ -73,6 +73,41 @@ compare = function (a,b) {
     return 0;
 },
 
+getAvailableThemes = function (source, allThemes) {
+    var availableThemes = [];
+    
+    if(source === NEWS_SOURCE.BLICK) {
+        $.each(allThemes, function (i, theme) {
+            var data = getBlickData(theme);
+            $xml = $(data);
+            var items = $xml.find('item');
+            if(parseBlickData($xml, items, 0)) {
+                availableThemes[availableThemes.length] = theme;
+            }
+        });
+    } else if(source === NEWS_SOURCE.TAGI) {
+        $.each(allThemes, function (i, theme) {
+            var data = getTagiData(theme);
+            $xml = $(data);
+            var items = $xml.find('item');
+            if(parseTagiData($xml, items, 0)) {
+                availableThemes[availableThemes.length] = theme;
+            }
+        });
+    } else if(source === NEWS_SOURCE.NZZ) {
+        $.each(allThemes, function (i, theme) {
+            var data = getNZZData(theme);
+            $xml = $(data);
+            var items = $xml.find('item');
+            if(parseNZZData($xml, items, 0)) {
+                availableThemes[availableThemes.length] = theme;
+            }
+        });
+    }
+    
+    return availableThemes;
+},
+    
 checkNextTheme = function (select) {
     var next, before;
     var themelist;
@@ -117,4 +152,60 @@ checkNextTheme = function (select) {
         console.log(before+next);
         return next;
     }
+},
+
+parseTagiData = function ($xml, items, index) {
+    var html = '';
+    var imgURL = $xml.find('image')[0].children[2].textContent;
+    html += '<img src="'+ imgURL +'" alt="Tagi title img">';
+    html += '<br><br>'
+    html += $xml.find('title')[0].textContent;
+    html += '<br><br>';
+    html += items[index].children[0].textContent;
+    html += '<br><br>'
+    html += items[index].children[1].textContent;
+    
+    return html;
+},
+    
+parseBlickData = function ($xml, items, index) {
+    var html = '';
+    $item = $(items[index]);
+    if($item.find('title')[0] && $item.find('description')[0]) {
+        var imgURL = $xml.find('url')[0].textContent;
+        html += '<img src="'+ imgURL +'" alt="Blick title img">';
+        html += '<br><br>'
+        html += $xml.find('title')[0].textContent;
+        html += '<br><br>';
+        html += $item.find('title')[0].textContent;
+        html += '<br>';
+        html += $item.find('description')[0].textContent;
+    }
+
+    if($item.find('content\\:encoded') && $item.find('content\\:encoded')[0] && $item.find('content\\:encoded')[0].children.length > 0) {
+        $.each($item.find('content\\:encoded')[0].children, function (i, content) {
+            html += content.outerHTML;
+        });
+    }
+    
+    return html;
+},
+
+parseNZZData = function ($xml, items, index) {
+    $item = $(items[index]);
+    var html = '';
+
+    html += $xml.find('title')[0].textContent;
+    html += '<br><br>';
+    html += $item.find('title')[0].textContent;
+    html += '<br>'
+    if($item.find('media\\:thumbnail') && $item.find('media\\:thumbnail')[0]) {
+        html += '<img src="'+ $item.find('media\\:thumbnail')[0].attributes[2].textContent +'" alt="Tagi title img">';
+        html += '<br>'
+    }
+    if($item.find('description') && $item.find('description')[0]) {
+        html += $item.find('description')[0].textContent;
+    }
+    
+    return html;
 };
