@@ -29,7 +29,7 @@ var currentSource = '';
 
 var NEWS_SOURCE = {
   TWENTY_MIN : {value: "20Min"},
-  BLICK: {value: "BLick"},
+  BLICK: {value: "Blick"},
   NZZ : {value: "NZZ"},
   TAGI : {value: "Tagesanzeiger"}
 };
@@ -218,7 +218,7 @@ buildNZZData = function (data, index, theme) {
         if(!items[index]) {
             index = 0;
         }
-        
+
         $('#news')[0].innerHTML = parseNZZData($xml, items, index);
 
         setTimeout(function() {

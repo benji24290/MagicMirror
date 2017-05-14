@@ -75,7 +75,7 @@ compare = function (a,b) {
 
 getAvailableThemes = function (source, allThemes) {
     var availableThemes = [];
-    
+
     if(source === NEWS_SOURCE.BLICK) {
         $.each(allThemes, function (i, theme) {
             var data = getBlickData(theme);
@@ -104,10 +104,10 @@ getAvailableThemes = function (source, allThemes) {
             }
         });
     }
-    
+
     return availableThemes;
 },
-    
+
 checkNextTheme = function (select) {
     var next, before;
     var themelist;
@@ -117,13 +117,16 @@ checkNextTheme = function (select) {
             themelist = twentyMinThemes;
         }
         else if(currentSource == "NZZ"){
-            themelist = nzzThemes;
+          themelist = getAvailableThemes(NEWS_SOURCE.NZZ,nzzThemes);
+          console.log(themelist);
         }
         else if(currentSource == "Tagesanzeiger"){
-            themelist = tagiThemes;
+            themelist = getAvailableThemes(NEWS_SOURCE.TAGI,tagiThemes);
+            console.log(themelist);
         }
         else if(currentSource == "Blick"){
-            themelist = blickThemes;
+            themelist = getAvailableThemes(NEWS_SOURCE.BLICK,blickThemes);
+            console.log(themelist);
         }
 
         for(var i=0; i < themelist.length; i++) {
@@ -164,10 +167,10 @@ parseTagiData = function ($xml, items, index) {
     html += items[index].children[0].textContent;
     html += '<br><br>'
     html += items[index].children[1].textContent;
-    
+
     return html;
 },
-    
+
 parseBlickData = function ($xml, items, index) {
     var html = '';
     $item = $(items[index]);
@@ -187,7 +190,7 @@ parseBlickData = function ($xml, items, index) {
             html += content.outerHTML;
         });
     }
-    
+
     return html;
 },
 
@@ -206,6 +209,6 @@ parseNZZData = function ($xml, items, index) {
     if($item.find('description') && $item.find('description')[0]) {
         html += $item.find('description')[0].textContent;
     }
-    
+
     return html;
 };

@@ -1,5 +1,5 @@
-var serverURL = 'http://localhost:8081';
-//var serverURL = 'http://192.168.1.124:8081';
+//var serverURL = 'http://localhost:8081';
+var serverURL = 'http://192.168.1.124:8081';
 var settingsURL = 'http://localhost:8081/settings';
 //var settingsURL = 'http://192.168.1.124:8081/settings';
 
