@@ -11,11 +11,15 @@ var commands = {
     'zoom out': function() {
       zoomOut();
     },
-    'zeige *adress': function() {
-        window.location = "../news";
+    'zeige *address': function(address) {
+        toggleSearchMode("single");
+        document.getElementById('startInput').innerHTML = address;
+        setLocation();
     },
     'show *adress': function() {
-        window.location = "../news";
+      toggleSearchMode("single");
+      document.getElementById('startInput').innerHTML = address;
+      setLocation();
     },
     'news': function() {
         window.location = "../news";
