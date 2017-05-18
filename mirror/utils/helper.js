@@ -30,7 +30,7 @@ getRandomInt = function (min, max) {
 
 setLocation = function () {
     var geocoder = new google.maps.Geocoder();
-    var address = $('#location')[0].value;
+    var address = $('#locationInput')[0].value;
 
     geocoder.geocode( { 'address': address}, function(results, status) {
         if (status == google.maps.GeocoderStatus.OK) {
