@@ -61,7 +61,22 @@ getZoomLevel = function (pos) {
                 // TODO: determine zoom level according to returned data
             }
         });
-}
+},
+
+getCoordinates = function (address) {
+  var pos;
+  address = address.replace(/ /gi, "+");
+
+  $.ajax({
+          type: 'GET',
+          url: "https://maps.googleapis.com/maps/api/geocode/json?address="+address,
+          success : function (data) {
+              pos = posdata.results[0].geometry.location;
+
+          }
+  });
+  return pos;  
+},
 
 //--------------------NEWS----------------------------------------------------------------------------------------------------------------
 
@@ -72,6 +87,8 @@ compare = function (a,b) {
         return 1;
     return 0;
 },
+
+
 
 getAvailableThemes = function (source, allThemes) {
     var availableThemes = [];
