@@ -75,8 +75,8 @@ calculateAndDisplayRoute = function (directionsService, directionsDisplay) {
     
     directionsService.route({
         
-        origin: "Rötelsteig 6, 8037 Zürich",
-        destination: "Hübeliweg 3, 3123 Bern",
+        origin: $('#startInput')[0].value,
+        destination: $('#endInput')[0].value,
         travelMode: 'DRIVING'
         
     }, function(response, status) {
