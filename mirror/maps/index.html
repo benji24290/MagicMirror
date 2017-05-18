@@ -33,12 +33,22 @@
 
             <div class="row">
                 <div class="col-md-1"></div>
+                <div class="col-md-5">
+                    <ul class="pagination1" id="switch">
+                        <li><a href="#" id="single" onclick="toggleSearchMode('single');">Single location</a></li>
+                        <li><a href="#" id="direction" onclick="toggleSearchMode('directions');">Directions</a>
+                    </ul>
+                </div>
+                <div class="col-md-6"></div>
+            </div>
+            <div class="row" id="singleLocation" style="display: none;">
+                <div class="col-md-1"></div>
                 <div class="col-md-5 well">
-                    <table>
-                        <tr>
-                            <td id="location" style="padding-right : 15px;"></td>
-                            <td><input type="text" class="form-control" id="location"></td>
-                            <td><button id="go" class="btn btn-default" onclick="setLocation();"></button></td>
+                    <table style="width: 100%;">
+                        <tr style="width: 100%;">
+                            <td id="location" style="width: 15%;"></td>
+                            <td style="width: 70%;"><input type="text" id="locationInput" style="display: block; width: 300px; margin-top: 15px;"></td>
+                            <td style="width: 15%;"><button id="go" class="btn btn-default" onclick="setLocation();"></button></td>
                         </tr>
                     </table>
                 </div>
@@ -47,6 +57,21 @@
                     <div style="margin : 0;" id="clock"></div>
                 </div>
                 <div class="col-md-1"></div>
+            </div>
+            <div class="row" id="directions" style="display: none;">
+                <div class="col-md-1"></div>
+                <div class="col-md-6 well">
+                    <table style="width: 100%;">
+                        <tr style="width: 100%;">
+                            <td id="start" style="width: 5%;">Start</td>
+                            <td style="width: 42%;"><input type="text" id="start" style="display: block; width: 300px; margin-top: 50px; position: relative;"></td>
+                            <td id="start" style="width: 5%;">End</td>
+                            <td style="width: 43%;"><input type="text" id="start" style="display: block; width: 300px; margin-top: 50px; position: relative;"></td>
+                            <td style="width: 5%;"><button id="go" class="btn btn-default" onclick="findDirections();">Go</button></td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="col-md-5"></div>
             </div>
             <div class="row">
                 <div class="col-md-1">
