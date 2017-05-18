@@ -44,6 +44,11 @@ setLocation = function () {
             map.setCenter(pos);
             map.setZoom(15);
             getZoomLevel(pos);
+            var marker = new google.maps.Marker({
+              position: pos,
+              map: map,
+              title: 'Hello World!'
+            })
         }
     });
 },
