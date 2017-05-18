@@ -21,7 +21,7 @@ $(document).ready(function () {
         // Start listening
         annyang.start();
     }
-    
+
     setupData(DATA_TYPE.MAPS);
 });
 
@@ -35,7 +35,7 @@ initMap = function () {
     // Set texts
     $('#location')[0].innerHTML = getText('MAPS_INFO_LOCATION');
     $('#go')[0].innerHTML = getText('MAPS_INFO_GO');
-    
+
     // Create a map object and specify the DOM element for display.
     map = new google.maps.Map($('#map')[0], {
       center: {lat: -34.397, lng: 150.644},
@@ -52,39 +52,39 @@ initMap = function () {
         map.setCenter(pos);
         }, function() {});
     }
-    
-    
-    
+
+
+
     findDirections(map);
 },
-    
+
 findDirections = function (map) {
- 
+
     var directionsService = new google.maps.DirectionsService;
     var directionsDisplay = new google.maps.DirectionsRenderer;
     directionsDisplay.setMap(map);
     calculateAndDisplayRoute(directionsService, directionsDisplay);
 },
-    
+
 calculateAndDisplayRoute = function (directionsService, directionsDisplay) {
-    
+
     // travel mode: DRIVING, WALKING, BICYCLING, TRANSIT (BUS, RAIL, SUBWAY, TRAIN, TRAM)
-    
+
     //    travelMode: 'TRANSIT',
     //    transitOptions: {
     //        departureTime: new Date(1337675679473),
     //        modes: ['BUS'],
     //        routingPreference: 'FEWER_TRANSFERS'
     //    },
-    
+
     directionsService.route({
-        
+
         origin: "Rötelsteig 6, 8037 Zürich",
         destination: "Hübeliweg 3, 3123 Bern",
         travelMode: 'DRIVING'
-        
+
     }, function(response, status) {
-      
+
         if (status === 'OK') {
             directionsDisplay.setDirections(response);
             showDetails(response);
@@ -95,7 +95,7 @@ calculateAndDisplayRoute = function (directionsService, directionsDisplay) {
 },
 
 showDetails = function (response) {
-    
+
     var message = '';
     $.each(response.routes[0].legs, function (i, leg) {
         if(leg.departure_time) {

@@ -71,11 +71,12 @@ getCoordinates = function (address) {
           type: 'GET',
           url: "https://maps.googleapis.com/maps/api/geocode/json?address="+address,
           success : function (data) {
-              pos = posdata.results[0].geometry.location;
+              pos = data.results[0].geometry.location;
+              console.log(pos);
 
           }
   });
-  return pos;  
+  return pos;
 },
 
 //--------------------NEWS----------------------------------------------------------------------------------------------------------------
