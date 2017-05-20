@@ -6,6 +6,13 @@ var map;
 var socket;
 var lastDirectionsDetails;
 
+var DIRECTIONS = {
+  LEFT : {value: "left"},
+  RIGHT: {value: "right"},
+  UP : {value: "up"},
+  DOWN : {value: "down"}
+};
+
 //------------------------------------------------------------------------------------------------------------------------------------------
 //--------------------INITIALISATION--------------------------------------------------------------------------------------------------------
 //------------------------------------------------------------------------------------------------------------------------------------------
@@ -34,8 +41,8 @@ $(document).ready(function () {
 
 initMap = function () {
     // Set texts
-    $('#location')[0].innerHTML = getText('MAPS_INFO_LOCATION');
-    $('#go')[0].innerHTML = getText('MAPS_INFO_GO');
+    //$('#location')[0].innerHTML = getText('MAPS_INFO_LOCATION');
+    //$('#go')[0].innerHTML = getText('MAPS_INFO_GO');
 
     // Create a map object and specify the DOM element for display.
     map = new google.maps.Map($('#map')[0], {
@@ -67,18 +74,13 @@ calculateAndDisplayRoute = function (directionsService, directionsDisplay) {
 
     // travel mode: DRIVING, WALKING, BICYCLING, TRANSIT (BUS, RAIL, SUBWAY, TRAIN, TRAM)
 
-    //    travelMode: 'TRANSIT',
-    //    transitOptions: {
-    //        departureTime: new Date(1337675679473),
-    //        modes: ['BUS'],
-    //        routingPreference: 'FEWER_TRANSFERS'
-    //    },
-
     directionsService.route({
 
         origin: $('#startInput')[0].value,
         destination: $('#endInput')[0].value,
+
         travelMode: 'DRIVING'
+
 
     }, function(response, status) {
 
@@ -107,7 +109,7 @@ showDetails = function (response) {
             message += i+1 + '. ' + step.instructions + '\n';
         });
     });
-    //alert(message);
+    alert(message);
 },
 
 toggleSearchMode = function (element) {
@@ -118,7 +120,45 @@ toggleSearchMode = function (element) {
         $('#singleLocation').hide();
         $('#directions').show();
     }
-}
+},
+
+moveOnMap = function (direction) {
+
+    var actualLat = map.getCenter().lat(); // Y-Axis
+    var actualLng = map.getCenter().lng(); // X-Axis
+    var pos = {
+        lat: actualLat,
+        lng: actualLng
+    };
+
+    if(direction === DIRECTIONS.UP) {
+        var newLat = actualLat + 5;
+        var pos = {
+            lat: newLat,
+            lng: actualLng
+        };
+    } else if(direction === DIRECTIONS.DOWN) {
+        var newLat = actualLat - 5;
+        var pos = {
+            lat: newLat,
+            lng: actualLng
+        };
+    } else if(direction === DIRECTIONS.LEFT) {
+        var newLng = actualLng - 5;
+        var pos = {
+            lat: actualLat,
+            lng: newLng
+        };
+    } else if(direction === DIRECTIONS.RIGHT) {
+        var newLng = actualLng + 5;
+        var pos = {
+            lat: actualLat,
+            lng: newLng
+        };
+    }
+    map.setCenter(pos);
+},
+
 
 zoomIn = function(){
   if(map.zoom <= 21){
