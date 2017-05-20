@@ -39,28 +39,29 @@
                         <li><a href="#" id="direction" onclick="toggleSearchMode('directions');">Directions</a>
                     </ul>
                 </div>
-                <div class="col-md-6"></div>
+                <div class="col-md-3"></div>
+                <div class="col-md-3">
+                    <div style="margin : 0;" id="clock"></div>
+                </div>
+
             </div>
             <div class="row" id="singleLocation" style="display: none;">
                 <div class="col-md-1"></div>
-                <div class="col-md-5 well">
+                <div class="col-md-5">
                     <table style="width: 100%;">
                         <tr style="width: 100%;">
-                            <td id="location" style="width: 15%;"></td>
-                            <td style="width: 70%;"><input type="text" id="locationInput" style="display: block; width: 300px; margin-top: 15px;"></td>
-                            <td style="width: 15%;"><button id="go" class="btn btn-default" onclick="setLocation();"></button></td>
+                            <!--<td id="location" style="width: 15%;">ORT</td>-->
+                            <td style="width: 70%;"><input type="text" id="locationInput" value="Ort, Stadt ..." style="display: block; width: 300px; margin-top: 15px;"></td>
+                            <!--<td style="width: 15%;"><button id="go" class="btn btn-default" onclick="setLocation();"></button></td>-->
                         </tr>
                     </table>
                 </div>
                 <div class="col-md-2"></div>
-                <div class="col-md-3">
-                    <div style="margin : 0;" id="clock"></div>
-                </div>
                 <div class="col-md-1"></div>
             </div>
             <div class="row" id="directions" style="display: none;">
                 <div class="col-md-1"></div>
-                <div class="col-md-6 well">
+                <div class="col-md-6">
                     <table style="width: 100%;">
                         <tr style="width: 100%;">
                             <td id="start" style="width: 5%;">Startpunkt</td>
@@ -71,7 +72,7 @@
                         </tr>
                     </table>
                 </div>
-                <div class="col-md-5"></div>
+                <div class="col-md-2"></div>
             </div>
             <div class="row">
                 <div class="col-md-1">

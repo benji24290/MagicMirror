@@ -4,6 +4,7 @@
 
 var map;
 var socket;
+var lastDirectionsDetails;
 
 //------------------------------------------------------------------------------------------------------------------------------------------
 //--------------------INITIALISATION--------------------------------------------------------------------------------------------------------
@@ -21,7 +22,7 @@ $(document).ready(function () {
         // Start listening
         annyang.start();
     }
-    
+
     setupData(DATA_TYPE.MAPS);
 });
 
@@ -35,7 +36,7 @@ initMap = function () {
     // Set texts
     $('#location')[0].innerHTML = getText('MAPS_INFO_LOCATION');
     $('#go')[0].innerHTML = getText('MAPS_INFO_GO');
-    
+
     // Create a map object and specify the DOM element for display.
     map = new google.maps.Map($('#map')[0], {
       center: {lat: -34.397, lng: 150.644},
@@ -53,45 +54,45 @@ initMap = function () {
         }, function() {});
     }
 },
-    
+
 findDirections = function () {
- 
+
     var directionsService = new google.maps.DirectionsService;
     var directionsDisplay = new google.maps.DirectionsRenderer;
     directionsDisplay.setMap(map);
     calculateAndDisplayRoute(directionsService, directionsDisplay);
 },
-    
+
 calculateAndDisplayRoute = function (directionsService, directionsDisplay) {
-    
+
     // travel mode: DRIVING, WALKING, BICYCLING, TRANSIT (BUS, RAIL, SUBWAY, TRAIN, TRAM)
-    
+
     //    travelMode: 'TRANSIT',
     //    transitOptions: {
     //        departureTime: new Date(1337675679473),
     //        modes: ['BUS'],
     //        routingPreference: 'FEWER_TRANSFERS'
     //    },
-    
+
     directionsService.route({
-        
+
         origin: $('#startInput')[0].value,
         destination: $('#endInput')[0].value,
         travelMode: 'DRIVING'
-        
+
     }, function(response, status) {
-      
+
         if (status === 'OK') {
             directionsDisplay.setDirections(response);
             showDetails(response);
         } else {
-            window.alert('Directions request failed due to ' + status);
+            console.log('Directions request failed due to ' + status);
         }
     });
 },
 
 showDetails = function (response) {
-    
+
     var message = '';
     $.each(response.routes[0].legs, function (i, leg) {
         if(leg.departure_time) {
@@ -108,7 +109,7 @@ showDetails = function (response) {
     });
     //alert(message);
 },
-    
+
 toggleSearchMode = function (element) {
     if(element === 'single') {
         $('#singleLocation').show();
@@ -118,7 +119,7 @@ toggleSearchMode = function (element) {
         $('#directions').show();
     }
 }
-    
+
 zoomIn = function(){
   if(map.zoom <= 21){
     //console.log("if");
