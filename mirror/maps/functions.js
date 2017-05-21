@@ -31,7 +31,33 @@ $(document).ready(function () {
     }
 
     setupData(DATA_TYPE.MAPS);
+    gest.options.subscribeWithCallback(function(gesture) {
+        var message = '';
+        if (gesture.direction) {
+            message = gesture.direction;
+        } else {
+            message = gesture.error.message;
+        }
+
+        if(message == "Right"){
+            console.log("r");
+            moveOnMap(DIRECTIONS.RIGHT);
+        }else if(message == "Left"){
+            console.log("l");
+            moveOnMap(DIRECTIONS.LEFT);
+        }else if(message == "Long up"){
+            console.log("u");
+            moveOnMap(DIRECTIONS.UP);
+        }else if(message == "Long down"){
+            console.log("d");
+            moveOnMap(DIRECTIONS.DOWN);
+        }else{
+          console.log(message);
+        }
+    });
+    gest.start();
 });
+
 
 
 //------------------------------------------------------------------------------------------------------------------------------------------
@@ -61,16 +87,23 @@ initMap = function () {
         }, function() {});
     }
 },
+findDirectionsWith = function (mode) {
+
+    var directionsService = new google.maps.DirectionsService;
+    var directionsDisplay = new google.maps.DirectionsRenderer;
+    directionsDisplay.setMap(map);
+    calculateAndDisplayRoute(directionsService, directionsDisplay, mode);
+},
 
 findDirections = function () {
 
     var directionsService = new google.maps.DirectionsService;
     var directionsDisplay = new google.maps.DirectionsRenderer;
     directionsDisplay.setMap(map);
-    calculateAndDisplayRoute(directionsService, directionsDisplay);
+    calculateAndDisplayRoute(directionsService, directionsDisplay, "DRIVING");
 },
 
-calculateAndDisplayRoute = function (directionsService, directionsDisplay) {
+calculateAndDisplayRoute = function (directionsService, directionsDisplay, mode) {
 
     // travel mode: DRIVING, WALKING, BICYCLING, TRANSIT (BUS, RAIL, SUBWAY, TRAIN, TRAM)
 
@@ -79,7 +112,7 @@ calculateAndDisplayRoute = function (directionsService, directionsDisplay) {
         origin: $('#startInput')[0].value,
         destination: $('#endInput')[0].value,
 
-        travelMode: 'DRIVING'
+        travelMode: mode
 
 
     }, function(response, status) {
@@ -124,39 +157,28 @@ toggleSearchMode = function (element) {
 
 moveOnMap = function (direction) {
 
-    var actualLat = map.getCenter().lat(); // Y-Axis
+    /*var actualLat = map.getCenter().lat(); // Y-Axis
     var actualLng = map.getCenter().lng(); // X-Axis
     var pos = {
         lat: actualLat,
         lng: actualLng
-    };
+    };*/
 
     if(direction === DIRECTIONS.UP) {
-        var newLat = actualLat + 5;
+        /*var newLat = actualLat + 5*map.zoom/30;
+        console.log(map.zoom);
         var pos = {
             lat: newLat,
             lng: actualLng
-        };
+        };*/
+        map.panBy(0, -400)
     } else if(direction === DIRECTIONS.DOWN) {
-        var newLat = actualLat - 5;
-        var pos = {
-            lat: newLat,
-            lng: actualLng
-        };
+        map.panBy(0, 400)
     } else if(direction === DIRECTIONS.LEFT) {
-        var newLng = actualLng - 5;
-        var pos = {
-            lat: actualLat,
-            lng: newLng
-        };
+        map.panBy(-400, 0)
     } else if(direction === DIRECTIONS.RIGHT) {
-        var newLng = actualLng + 5;
-        var pos = {
-            lat: actualLat,
-            lng: newLng
-        };
+        map.panBy(400, 0)
     }
-    map.setCenter(pos);
 },
 
 

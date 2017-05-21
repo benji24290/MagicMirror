@@ -30,7 +30,24 @@ var commands = {
       document.getElementById('locationInput').value = address;
       setLocation();
     },
-    'erstelle eine route von *address1 nach *address2': function(address1, address2) {
+    'erstelle eine route *mode von *address1 nach *address2': function(mode, address1, address2) {
+        toggleSearchMode("directions");
+        console.log(address1 + "nach "+ address2+" "+mode);
+        document.getElementById('startInput').value = address1;
+        document.getElementById('endInput').value = address2;
+        if (mode = "zu fuss") {
+          findDirectionsWith("WALKING");
+        }else if(mode = "mit dem zug"){
+          findDirectionsWith("TRANSIT");
+        }else if(mode = "mit dem fahrrad"){
+          findDirectionsWith("BICYCLING");
+        }else if(mode = "mit dem auto"){
+          findDirectionsWith("DRIVING");
+        }else{
+          console.log(mode);
+        }
+    },
+    'ich möchte von *address1 nach *address2 fahren': function(address1, address2) {
         toggleSearchMode("directions");
         console.log(address1 + address2);
         document.getElementById('startInput').value = address1;
