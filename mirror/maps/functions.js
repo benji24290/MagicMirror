@@ -119,6 +119,7 @@ calculateAndDisplayRoute = function (directionsService, directionsDisplay, mode)
 
         if (status === 'OK') {
             directionsDisplay.setDirections(response);
+            console.log(mode);
             showDetails(response);
         } else {
             console.log('Directions request failed due to ' + status);
@@ -129,20 +130,27 @@ calculateAndDisplayRoute = function (directionsService, directionsDisplay, mode)
 showDetails = function (response) {
 
     var message = '';
+    var speach = '';
     $.each(response.routes[0].legs, function (i, leg) {
         if(leg.departure_time) {
-            message += 'departure: ' + leg.departure_time.text + '\n';
+            message += 'Abfahrt: ' + leg.departure_time.text + '\n';
+            speach += 'Abfahrt: ' + leg.departure_time.text + '\n';
         }
         if(leg.arrival_time) {
-            message += 'arrival: ' + leg.arrival_time.text + '\n';
+            message += 'Ankunft: ' + leg.arrival_time.text + '\n';
+            speach += '. Ankunft: ' + leg.arrival_time.text + '\n';
         }
-        message += 'distance: ' + leg.distance.text + '\n';
-        message += 'durcation: ' + leg.duration.text + '\n';
+        message += 'Distanz: ' + leg.distance.text + '\n';
+        message += 'Dauer: ' + leg.duration.text + '<br>';
+        speach += 'die Distanz beträgt ' + leg.distance.text + '\n';
+        speach += 'und dauert ' + leg.duration.text ;
         $.each(leg.steps, function (i, step) {
-            message += i+1 + '. ' + step.instructions + '\n';
+            message += i+1 + '. ' + step.instructions + '<br>';
         });
     });
-    alert(message);
+    //alert(message);
+    speak(speach ,"de")
+    document.getElementById('detailsCenter').innerHTML = message;
 },
 
 toggleSearchMode = function (element) {

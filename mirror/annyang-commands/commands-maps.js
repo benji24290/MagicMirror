@@ -35,13 +35,13 @@ var commands = {
         console.log(address1 + "nach "+ address2+" "+mode);
         document.getElementById('startInput').value = address1;
         document.getElementById('endInput').value = address2;
-        if (mode = "zu fuss") {
+        if (mode == "zu Fuß") {
           findDirectionsWith("WALKING");
-        }else if(mode = "mit dem zug"){
+        }else if(mode == "mit dem Zug"){
           findDirectionsWith("TRANSIT");
-        }else if(mode = "mit dem fahrrad"){
+        }else if(mode == "mit dem Fahrrad"){
           findDirectionsWith("BICYCLING");
-        }else if(mode = "mit dem auto"){
+        }else if(mode == "mit dem Auto"){
           findDirectionsWith("DRIVING");
         }else{
           console.log(mode);

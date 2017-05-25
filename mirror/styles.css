@@ -178,6 +178,20 @@ input[type=text] {
 	font-weight: 800;
   display: none;
 }
+#details{
+  width: 100vw;
+  height: 100vh;
+  position: absolute;
+  left: 0;
+  top: 0;
+}
+#detailsCenter{
+  width: 50%;
+
+  margin: 320px auto;
+  background-color: black;
+
+}
 .selectedNews{
   border:1px solid white;
   border-radius: 4px;
