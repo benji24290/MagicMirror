@@ -195,6 +195,7 @@ zoomIn = function(){
     //console.log("if");
     map.setZoom(map.zoom + 1);
   }else{
+    speak("maximales zoom  erreicht", "de");
     console.log("max zoomin");
   }
 },
@@ -204,6 +205,7 @@ zoomOut = function(){
       //console.log("if");
       map.setZoom(map.zoom - 1);
     }else{
+      speak("minimales zoom  erreicht", "de");
       console.log("max zoomout");
     }
 

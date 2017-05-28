@@ -8,6 +8,9 @@ var commands = {
     'heraus zoomen': function() {
       zoomOut();
     },
+    'verkleinern': function() {
+      zoomOut();
+    },
     'zoom in': function() {
       zoomIn();
     },
@@ -15,6 +18,11 @@ var commands = {
       zoomOut();
     },
     'zeige *address': function(address) {
+        toggleSearchMode("single");
+        document.getElementById('locationInput').value = address;
+        setLocation();
+    },
+    'zeig mir *address': function(address) {
         toggleSearchMode("single");
         document.getElementById('locationInput').value = address;
         setLocation();
