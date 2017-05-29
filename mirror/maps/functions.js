@@ -171,7 +171,7 @@ moveOnMap = function (direction) {
         lat: actualLat,
         lng: actualLng
     };*/
-
+    var bounds;
     if(direction === DIRECTIONS.UP) {
         /*var newLat = actualLat + 5*map.zoom/30;
         console.log(map.zoom);
@@ -180,8 +180,23 @@ moveOnMap = function (direction) {
             lng: actualLng
         };*/
         map.panBy(0, -400)
+
+        bounds = map.getBounds();
+        console.log(bounds.f.f); //lat koordinate oberer fensterrand
+        if(bounds.f.f > 85){
+          speak("oberes kartenende erreicht", "de");
+          console.log("top reached");
+          map.panBy(0, 400)
+        }
     } else if(direction === DIRECTIONS.DOWN) {
         map.panBy(0, 400)
+        bounds = map.getBounds();
+        console.log(bounds.f.b); //lat koordinate unterer fensterrand
+        if(bounds.f.b < -85){
+          speak("unteres kartenende erreicht", "de");
+          console.log("top reached");
+          map.panBy(0, -400)
+        }
     } else if(direction === DIRECTIONS.LEFT) {
         map.panBy(-400, 0)
     } else if(direction === DIRECTIONS.RIGHT) {
