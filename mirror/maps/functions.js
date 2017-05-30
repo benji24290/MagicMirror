@@ -93,6 +93,7 @@ findDirectionsWith = function (mode) {
     var directionsDisplay = new google.maps.DirectionsRenderer;
     directionsDisplay.setMap(map);
     calculateAndDisplayRoute(directionsService, directionsDisplay, mode);
+    
 },
 
 findDirections = function () {

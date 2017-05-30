@@ -32,6 +32,7 @@ setLocation = function () {
     var geocoder = new google.maps.Geocoder();
     var address = $('#locationInput')[0].value;
 
+
     geocoder.geocode( { 'address': address}, function(results, status) {
         if (status == google.maps.GeocoderStatus.OK) {
             var latitude = results[0].geometry.location.lat();
@@ -42,9 +43,9 @@ setLocation = function () {
                 lng: results[0].geometry.location.lng()
             };
             map.setCenter(pos);
-            map.setZoom(15);
+            map.setZoom(18);
             getZoomLevel(pos);
-            var marker = new google.maps.Marker({
+              var marker = new google.maps.Marker({
               position: pos,
               map: map,
               title: 'Hello World!'

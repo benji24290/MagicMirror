@@ -52,7 +52,28 @@ var commands = {
         }else if(mode == "mit dem Auto"){
           findDirectionsWith("DRIVING");
         }else{
-          console.log(mode);
+          speak(mode + " ist kein gültiges Verkehrsmittel","de");
+          annyang.abort();
+          annyang.start();
+        }
+    },
+    'erstelle eine verbindung *mode von *address1 nach *address2': function(mode, address1, address2) {
+        toggleSearchMode("directions");
+        console.log(address1 + "nach "+ address2+" "+mode);
+        document.getElementById('startInput').value = address1;
+        document.getElementById('endInput').value = address2;
+        if (mode == "zu Fuß") {
+          findDirectionsWith("WALKING");
+        }else if(mode == "mit dem Zug"){
+          findDirectionsWith("TRANSIT");
+        }else if(mode == "mit dem Fahrrad"){
+          findDirectionsWith("BICYCLING");
+        }else if(mode == "mit dem Auto"){
+          findDirectionsWith("DRIVING");
+        }else{
+          speak(mode + " ist kein gültiges Verkehrsmittel","de");
+          annyang.abort();
+          annyang.start();
         }
     },
     'ich möchte von *address1 nach *address2 fahren': function(address1, address2) {
